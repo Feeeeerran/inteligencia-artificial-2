@@ -1,5 +1,5 @@
 
-import numpy as np
+# import numpy as np
 from p5 import *
 
 # Clases propias
@@ -25,6 +25,7 @@ cont = 1
 for f in range(filas):
     grilla.append([])
     for c in range(columnas):
+        # No es pasillo
         if f%(largo + 1) != 0 and c%3 != 0:
             grilla[f].append(Nodo(c,f,cont))
             grilla[f][c].estanteria = True
@@ -51,6 +52,19 @@ for f in range(filas):
 # p2 = int(input("Ingrese punto de llegada: "))
 
 
+# Se necesitan 2 listas
+# Lista abierta
+#   Van los nodos que no hemos visitado y tenemos que evaluar
+# Lista cerrada
+#   Van los nodos que ya hemos visitado y no volvemos a visitar
+
+
+
+
+
+
+
+# #################### Tema libreria y tal ############################
 
 def setup():
     size(columnas*100,filas*100)
@@ -63,9 +77,13 @@ def draw():
             fill(255)
             if nodo.estanteria:
                 fill(155)
-
             rect(nodo.x*75,nodo.y*75,75,75)
             no_fill()
+
+
+
+
+
 
 
 run()

@@ -4,3 +4,9 @@ class Nodo:
         self.y = y
         self.id = id
         self.estanteria = False
+
+
+        # Faltan como propiedades la heuristica, el g y la f
+
+
+
