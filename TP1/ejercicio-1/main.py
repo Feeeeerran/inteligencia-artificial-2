@@ -1,4 +1,3 @@
-# Luci is here
 # import numpy as np
 from p5 import *
 
@@ -47,9 +46,7 @@ for f in range(filas):
         print("Nodo id = {}".format(nodo.id))
         print("\n")
 
-
-# p1 = int(input("Ingrese punto de salida: "))
-# p2 = int(input("Ingrese punto de llegada: "))
+ 
 
 
 # Se necesitan 2 listas
