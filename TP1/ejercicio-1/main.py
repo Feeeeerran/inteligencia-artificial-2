@@ -1,4 +1,3 @@
-# import numpy as np
 from p5 import *
 
 # Clases propias
@@ -16,9 +15,21 @@ print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
 filas = (filas*largo) + filas + 1
 columnas = columnas*2 + columnas + 1
 
+print(columnas)
+print(filas)
+
+
+
+# El usuario determina punto de entrada y llegada
+p1 = int(input("Determine el id de estanteria a llegar"))
+p2X = int(input("Determine la coordenada x de entrada"))
+p2Y = int(input("Determine la coordenada y de entrada"))
+
+
+
+
 # Grilla para llevar la cuenta y dibujar
 grilla = []
-
 
 cont = 1
 for f in range(filas):
@@ -28,25 +39,50 @@ for f in range(filas):
         if f%(largo + 1) != 0 and c%3 != 0:
             grilla[f].append(Nodo(c,f,cont))
             grilla[f][c].estanteria = True
+            
+            if cont == p1:
+                p1 = grilla[f][c]
+
             cont += 1
         else:
             grilla[f].append(Nodo(c,f))
+        
+        if f == p2Y and c == p2X:
+            p2 = grilla[f][c]
+
+        # Podria calcularse la f para cada nodo 🤔 (ver info.txt)
+
+
+# Una vez obtenida la grilla con sus nodos, debemos determinar que vecinos comparte cada nodo
+for f in range(filas):
+    for c in range(columnas):
+        nodo = grilla[f][c]
+
+        # Vecinos horizontales
+        if nodo.x > 0 and nodo.x < columnas-1:
+            grilla[f][c].vecinos.append(grilla[f][c+1])
+            grilla[f][c].vecinos.append(grilla[f][c-1])
+        elif nodo.x == 0:
+            grilla[f][c].vecinos.append(grilla[f][c+1])
+        elif nodo.x == columnas-1:
+            grilla[f][c].vecinos.append(grilla[f][c-1])
+
+        # Vecinos verticales
+        if nodo.y > 0 and nodo.y < filas-1:
+            grilla[f][c].vecinos.append(grilla[f+1][c])
+            grilla[f][c].vecinos.append(grilla[f-1][c])
+        elif nodo.y == 0:
+            grilla[f][c].vecinos.append(grilla[f+1][c])
+        elif nodo.y == filas-1:
+            grilla[f][c].vecinos.append(grilla[f-1][c])
+
+
 
 
 
 # print(grilla)
-print('Filas son',len(grilla),' bloques')
-print('Columnas',len(grilla[0]),' bloques')
-
-
-for f in range(filas):
-    for c in range(columnas):
-        nodo = grilla[f][c]
-        print("Nodo pos x:{} y:{}".format(nodo.x,nodo.y))
-        print("Nodo id = {}".format(nodo.id))
-        print("\n")
-
- 
+# print('Filas son',len(grilla),' bloques')
+# print('Columnas',len(grilla[0]),' bloques')
 
 
 # Se necesitan 2 listas
@@ -54,6 +90,9 @@ for f in range(filas):
 #   Van los nodos que no hemos visitado y tenemos que evaluar
 # Lista cerrada
 #   Van los nodos que ya hemos visitado y no volvemos a visitar
+listaAbierta = []
+listaCerrada = []
+
 
 
 
@@ -79,8 +118,5 @@ def draw():
 
 
 
-
-
-
-
-run()
+# Para ver el grafico descomentar run()
+# run()

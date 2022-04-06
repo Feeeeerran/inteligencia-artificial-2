@@ -4,8 +4,15 @@ class Nodo:
         self.y = y
         self.id = id
         self.estanteria = False
+        self.vecinos = []
+        self.f = None
+        self.c = None
+        self.h = None
 
-    def heuristica(self, p2):
-        return pow(pow(p2.x-self.x,2)+pow(p2.y-self.y,2),0.5)
+    def setF(self, p2,costo):
+        self.h = pow(pow(p2.x-self.x,2)+pow(p2.y-self.y,2),0.5)
+        self.c = costo
+        self.f = costo + self.h
+
 
 # Faltan como propiedades la heuristica, el g y la f

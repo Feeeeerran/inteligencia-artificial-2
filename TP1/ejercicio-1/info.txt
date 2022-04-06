@@ -1,0 +1,7 @@
+A tener en cuenta
+    > El algoritmo no puede atravesar estanterias
+    > Se accede a la estanteria de manera frontal nada mas
+    > Entonces el algoritmo accede de manera frontal siempre y cuando solo nos movamos por pasillos
+    
+
+    > Calculamos f cuando generamos los nodos o calculamos a medida que el algoritmo va buscando? 🤔🤔🤔
