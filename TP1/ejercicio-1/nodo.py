@@ -9,7 +9,7 @@ class Nodo:
         self.c = None
         self.h = None
 
-    def setF(self, p2,costo):
+    def setF(self,p2,costo):
         self.h = pow(pow(p2.x-self.x,2)+pow(p2.y-self.y,2),0.5)
         self.c = costo
         self.f = costo + self.h

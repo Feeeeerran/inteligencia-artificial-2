@@ -4,4 +4,5 @@ A tener en cuenta
     > Entonces el algoritmo accede de manera frontal siempre y cuando solo nos movamos por pasillos
     
 
-    > Calculamos f cuando generamos los nodos o calculamos a medida que el algoritmo va buscando? 🤔🤔🤔
+    > El agente tiene que salir de frente de la estanteria, sale hacia la derecha o izquierda desde nuestra vista
+    >  Lo anterior pero para cuando sale y cuando llega

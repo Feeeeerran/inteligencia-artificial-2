@@ -15,15 +15,11 @@ print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
 filas = (filas*largo) + filas + 1
 columnas = columnas*2 + columnas + 1
 
-print(columnas)
-print(filas)
-
-
 
 # El usuario determina punto de entrada y llegada
-p1 = int(input("Determine el id de estanteria a llegar"))
-p2X = int(input("Determine la coordenada x de entrada"))
-p2Y = int(input("Determine la coordenada y de entrada"))
+# p1 = int(input("Determine el id de estanteria de salida "))
+
+p2 = int(input("Determine el id de estanteria de llegada "))
 
 
 
@@ -42,17 +38,16 @@ for f in range(filas):
             
             if cont == p1:
                 p1 = grilla[f][c]
+            if cont == p2:
+                p2 = grilla[f][c]
 
             cont += 1
         else:
             grilla[f].append(Nodo(c,f))
-        
-        if f == p2Y and c == p2X:
-            p2 = grilla[f][c]
-
-        # Podria calcularse la f para cada nodo 🤔 (ver info.txt)
 
 
+# Luego quitar
+p1 = grilla[0][0]
 # Una vez obtenida la grilla con sus nodos, debemos determinar que vecinos comparte cada nodo
 for f in range(filas):
     for c in range(columnas):
@@ -92,6 +87,44 @@ for f in range(filas):
 #   Van los nodos que ya hemos visitado y no volvemos a visitar
 listaAbierta = []
 listaCerrada = []
+
+listaAbierta.append(p1)
+listaAbierta[0].setF(p2,0)
+
+nodoActual = listaAbierta[0]
+
+while len(listaAbierta) != 0 and nodoActual != p2:
+    # Evaluar los vecinos y calcular f
+    menorF = listaAbierta[0].f
+    for i in range(len(listaAbierta)):
+        # SetF
+        if listaAbierta[i].f <= menorF:
+            menorF = listaAbierta[i].f
+            nodoActual = listaAbierta[i]
+        
+    
+    print(nodoActual.x)
+    print(nodoActual.y)
+    print(nodoActual.h)
+    print("\n")
+
+    for i in range(len(nodoActual.vecinos)):
+        if nodoActual.vecinos[i] not in listaAbierta:
+            nodoActual.vecinos[i].setF(p2,nodoActual.c + 1)
+            listaAbierta.append(nodoActual.vecinos[i])
+
+
+    listaAbierta.remove(nodoActual)
+    listaCerrada.append(nodoActual)
+    # else:
+
+print("Estamos en el nodo final ",nodoActual.c)
+print(len(listaAbierta))
+print(len(listaCerrada))
+
+        
+        
+
 
 
 
