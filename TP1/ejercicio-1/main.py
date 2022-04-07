@@ -34,17 +34,6 @@ for f in range(filas):
             grilla[f].append(Nodo(c,f,cont))
             grilla[f][c].estanteria = True
             
-            if cont == p1:
-                if p1%2 == 0:
-                    p1 = grilla[f][c+1]
-                else:
-                    p1 = grilla[f][c-1]
-            if cont == p2:
-                if p2%2 == 0:
-                    p2 = grilla[f][c+1]
-                else:
-                    p2 = grilla[f][c-1]
-
             cont += 1
         else:
             grilla[f].append(Nodo(c,f))
@@ -74,6 +63,17 @@ for f in range(filas):
         elif nodo.y == filas-1:
             grilla[f][c].vecinos.append(grilla[f-1][c])
 
+        if nodo.id == p1:
+            if p1%2 == 0:
+                p1 = grilla[f][c+1]
+            else:
+                p1 = grilla[f][c-1]
+        if nodo.id == p2:
+            if p2%2 == 0:
+                p2 = grilla[f][c+1]
+            else:
+                p2 = grilla[f][c-1]
+
 
 
 
@@ -100,7 +100,7 @@ while len(listaAbierta) != 0 and nodoActual != p2:
     # Evaluar los vecinos y calcular f
     menorF = listaAbierta[0].f
     for i in range(len(listaAbierta)):
-        # SetF
+
         if listaAbierta[i].f <= menorF:
             menorF = listaAbierta[i].f
             nodoActual = listaAbierta[i]
@@ -112,10 +112,9 @@ while len(listaAbierta) != 0 and nodoActual != p2:
     print("\n")
 
     for i in range(len(nodoActual.vecinos)):
-        if nodoActual.vecinos[i] not in listaAbierta:
-            nodoActual.vecinos[i].setF(p2,nodoActual.c + 1)
+        if nodoActual.vecinos[i] not in listaAbierta and not nodoActual.vecinos[i].estanteria:
+            nodoActual.vecinos[i].setF(p2,nodoActual.c + 1/2)
             listaAbierta.append(nodoActual.vecinos[i])
-
 
     listaAbierta.remove(nodoActual)
     listaCerrada.append(nodoActual)
