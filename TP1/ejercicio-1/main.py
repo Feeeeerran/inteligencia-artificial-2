@@ -17,10 +17,8 @@ columnas = columnas*2 + columnas + 1
 
 
 # El usuario determina punto de entrada y llegada
-# p1 = int(input("Determine el id de estanteria de salida "))
-
+p1 = int(input("Determine el id de estanteria de salida "))
 p2 = int(input("Determine el id de estanteria de llegada "))
-
 
 
 
@@ -37,17 +35,22 @@ for f in range(filas):
             grilla[f][c].estanteria = True
             
             if cont == p1:
-                p1 = grilla[f][c]
+                if p1%2 == 0:
+                    p1 = grilla[f][c+1]
+                else:
+                    p1 = grilla[f][c-1]
             if cont == p2:
-                p2 = grilla[f][c]
+                if p2%2 == 0:
+                    p2 = grilla[f][c+1]
+                else:
+                    p2 = grilla[f][c-1]
 
             cont += 1
         else:
             grilla[f].append(Nodo(c,f))
 
 
-# Luego quitar
-p1 = grilla[0][0]
+
 # Una vez obtenida la grilla con sus nodos, debemos determinar que vecinos comparte cada nodo
 for f in range(filas):
     for c in range(columnas):
@@ -116,7 +119,7 @@ while len(listaAbierta) != 0 and nodoActual != p2:
 
     listaAbierta.remove(nodoActual)
     listaCerrada.append(nodoActual)
-    # else:
+
 
 print("Estamos en el nodo final ",nodoActual.c)
 print(len(listaAbierta))
