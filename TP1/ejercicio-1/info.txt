@@ -1,8 +1,2 @@
 A tener en cuenta
-    > El algoritmo no puede atravesar estanterias
-    > Se accede a la estanteria de manera frontal nada mas
-    > Entonces el algoritmo accede de manera frontal siempre y cuando solo nos movamos por pasillos
-    
-
-    > El agente tiene que salir de frente de la estanteria, sale hacia la derecha o izquierda desde nuestra vista
-    >  Lo anterior pero para cuando sale y cuando llega
+   > El algoritmo es mas optimo (menos elementos visitados pero llega a destino) si el coste pasa de 1 a 1/2
