@@ -22,6 +22,3 @@ class Nodo:
     def mostrar(self,R,G,B,escala):
         fill(R,G,B)
         rect(self.x*escala,self.y*escala,escala,escala)
-
-
-# Faltan como propiedades la heuristica, el g y la f
