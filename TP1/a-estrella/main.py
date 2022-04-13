@@ -3,24 +3,13 @@ import os
 
 # Clases propias
 from nodo import Nodo
+from grilla import Grilla
 
-# Faltaria un while para revisar que este todo ok? 
-os.system("cls")
-print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-filas = int(input("Ingrese cantidad de filas de estanterias: "))
-columnas = int(input("Ingrese cantidad de columnas de estanterias: "))
-largo = int(input("Ingrese largo de la estanteria (suma filas): "))
-print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
 
-# Las estanterias estan separadas entre si por un espacio entre filas y columnas
-# El espacio no depende del largo de la estanteria
-filas = (filas*largo) + filas + 1
-columnas = columnas*2 + columnas + 1
+#grilla = Grilla()
 
-grilla = None
 listaAbierta = None
 listaCerrada = None
-
 
 
 # El usuario determina punto de entrada y llegada
@@ -43,45 +32,9 @@ def setup():
 
 
 
-    # Setup de la grilla 
-    grilla = []
-    cont = 1
-    for f in range(filas):
-        grilla.append([])
-        for c in range(columnas):
-            # No es pasillo
-            if f%(largo + 1) != 0 and c%3 != 0:
-                grilla[f].append(Nodo(c,f,cont))
-                grilla[f][c].estanteria = True
-                cont += 1
-            else:
-                grilla[f].append(Nodo(c,f))
-
-
-
-
     # Una vez obtenida la grilla con sus nodos, debemos determinar que vecinos comparte cada nodo
     for f in range(filas):
         for c in range(columnas):
-            nodo = grilla[f][c]
-
-            # Vecinos horizontales
-            if nodo.x > 0 and nodo.x < columnas-1:
-                grilla[f][c].vecinos.append(grilla[f][c+1])
-                grilla[f][c].vecinos.append(grilla[f][c-1])
-            elif nodo.x == 0:
-                grilla[f][c].vecinos.append(grilla[f][c+1])
-            elif nodo.x == columnas-1:
-                grilla[f][c].vecinos.append(grilla[f][c-1])
-
-            # Vecinos verticales
-            if nodo.y > 0 and nodo.y < filas-1:
-                grilla[f][c].vecinos.append(grilla[f+1][c])
-                grilla[f][c].vecinos.append(grilla[f-1][c])
-            elif nodo.y == 0:
-                grilla[f][c].vecinos.append(grilla[f+1][c])
-            elif nodo.y == filas-1:
-                grilla[f][c].vecinos.append(grilla[f-1][c])
 
             if nodo.id == p1:
                 if p1%2 == 0:
