@@ -1,4 +1,6 @@
-from nodo import Nodo
+from p5 import *
+from grilla.nodo import Nodo
+
 import os
 
 class Grilla:
@@ -33,7 +35,7 @@ class Grilla:
         # Mostrar grilla graficamente
 
     # Setup de la grilla 
-    def armarGrilla(self):
+    def setGrilla(self):
         cont = 1
         for f in range(self.filas):
             self.grilla.append([])
@@ -72,3 +74,10 @@ class Grilla:
                     grilla[f][c].vecinos.append(grilla[f+1][c])
                 elif nodo.y == filas-1:
                     grilla[f][c].vecinos.append(grilla[f-1][c])
+
+
+
+
+# Añadir metodos para dibujarla
+# Entonces decimos que la grilla tiene "estados" y a veces pinta imprimirla para verla
+

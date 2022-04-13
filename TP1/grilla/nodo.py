@@ -1,5 +1,6 @@
 from p5 import *
 
+
 class Nodo:
     def __init__(self,x,y,id = 0):
         self.x = x
@@ -22,3 +23,6 @@ class Nodo:
     def mostrar(self,R,G,B,escala):
         fill(R,G,B)
         rect(self.x*escala,self.y*escala,escala,escala)
+
+
+# Faltan como propiedades la heuristica, el g y la f
