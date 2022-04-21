@@ -29,10 +29,13 @@ def dist(ruta):
     i += 1
     return coste 
 
-dist(rutaInicial)
+
 for i in range (iteraciones):
   temp = 1-(i+1)/iteraciones
   rutaActual = rutaInicial[:]
+  nuevaRuta = rutaInicial [:]
+  distActual = dist(rutaInicial)
+  nuevaDist = dist(rutaInicial)
 
 
   while temp > tempFinal:
@@ -40,12 +43,15 @@ for i in range (iteraciones):
    puntos = [nodosRandom.item(0), nodosRandom.item(1) ]
    p1 = puntos[0]
    p2 = puntos[1]
-   coste1 = AStar(p1,p2,M)
-   coste2 = AStar(p2,p1,M)
+   coste1 = dist(nuevaRuta)
+   nuevaRuta[puntos[0],puntos[1]] = nuevaRuta[puntos[1],puntos[0]] 
+   coste2 = dist(nuevaRuta)
+
+   nuevaDist = nuevaDist - coste1 + coste2 
    deltaE =  coste2 - coste1
 
    if deltaE < 0 or math.exp(-deltaE/temp) :
-     rutaActual = nuevaRuta[]
+     rutaActual = nuevaRuta[:]
      distActual = nuevaDist
 
    else:
