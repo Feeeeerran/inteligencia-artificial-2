@@ -1,3 +1,6 @@
 A tener en cuenta
    > El algoritmo es mas optimo (menos elementos visitados pero llega a destino) si el coste pasa de 1 a 1/2
    > Cambiar el nombre de grilla a matriz?
+
+
+> Deberiamos colocar un error en el a estrella

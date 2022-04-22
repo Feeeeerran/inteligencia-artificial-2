@@ -1,30 +1,25 @@
 import os
 
-
+# P1 y p2 tienen que ser nodos (instancias de Nodo) de la grilla
 def AStar(p1,p2,grilla):
     listaAbierta = []
     listaCerrada = []
     # Encontramos los nodos de partida y llegada
     # No partimos desde la estanteria, partimos desde el frente de la misma
-    for f in range(grilla.filas):
-        for c in range(grilla.columnas):
-            nodo = grilla.grilla[f][c]
-            if nodo.id == p1:
-                if p1%2 == 0:
-                    p1 = grilla.grilla[f][c+1]
-                else:
-                    p1 = grilla.grilla[f][c-1]
-            if nodo.id == p2:
-                if p2%2 == 0:
-                    p2 = grilla.grilla[f][c+1]
-                else:
-                    p2 = grilla.grilla[f][c-1]
+    if p1.id%2 == 0:
+        p1 = grilla.grilla[p1.y][p1.x+1]
+    else:
+        p1 = grilla.grilla[p1.y][p1.x-1]
+    if p2.id%2 == 0:
+        p2 = grilla.grilla[p2.y][p2.x+1]
+    else:
+        p2 = grilla.grilla[p2.y][p2.x-1]
 
     # Set inicial para que el algoritmo arranque tranquilo 😎
     listaAbierta.append(p1)
     listaAbierta[0].setF(p2,0)
-
     nodoActual = None
+
 
     while len(listaAbierta) != 0 and nodoActual != p2:
         menorF = listaAbierta[0].f
@@ -40,7 +35,7 @@ def AStar(p1,p2,grilla):
                 # Seteamos el f = h + c
 
                 # ################ Si disminuimos el coste a 1/2 el algoritmo es mas preciso
-                nodoActual.vecinos[i].setF(p2,nodoActual.c + 1/2)
+                nodoActual.vecinos[i].setF(p2,nodoActual.c + 1)
                 # Metemos los nodos vecinos a la listaAbierta
                 listaAbierta.append(nodoActual.vecinos[i])
 
@@ -51,7 +46,8 @@ def AStar(p1,p2,grilla):
 
         listaAbierta.remove(nodoActual)
         listaCerrada.append(nodoActual)
+        # break
     
-    os.system("cls")
-    print("Llegamos a destino")
+    # os.system("cls")
+    # print("Llegamos a destino")
     return nodoActual.c

@@ -1,9 +1,9 @@
-from p5 import *
 from grilla.nodo import Nodo
-
 import os
 
+
 class Grilla:
+
     def __init__(self):
         self.filasEstanterias = 3
         self.columnasEstanterias = 3
@@ -12,6 +12,10 @@ class Grilla:
         self.columnas = None
         self.grilla = []
         self.estanterias = None
+
+
+
+
 
     def setEstanterias(self):
         os.system("cls")
