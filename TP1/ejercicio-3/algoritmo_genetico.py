@@ -8,6 +8,7 @@ from genoma import Genoma
 def geneticAlg(G, listaOrdenes):
 
     individuo = Genoma(1)
+    delta = 0.1             # Ver cual es el valor optimo
 
     # Recorrer la grilla evaluando cada nodo de la misma
     # Formar un arreglo con los id de cada nodo
@@ -20,41 +21,63 @@ def geneticAlg(G, listaOrdenes):
 
     # Creo los individuos de la primera generacion 
     poblacion = []
+    f = 0
     for i in range(15):                  # 15 = tamano de la poblacion
-        poblacion[i] = Genoma(i)
+        poblacion[i] = Genoma(i)                                                    # Estoy sobreescribiendo genoma(1)?
         poblacion[i].listaIds = random.sample(individuo.listaIds, k = len(individuo.listaIds))
+        
+        j = 0
+        for f in range(G.filas):
+            for c in range(G.columnas):
+                G.grilla[f][c].id = poblacion[i].listaIds[j]
+                j += 1
+
+        poblacion[i].setFitness(listaOrdenes, G)
+        f = f + poblacion[i].fitness
     
     pobAnterior = poblacion
     fitnessPobAnterior = f / len(pobAnterior)       # Promedio, esta bien?
 
-    # Meter todo lo siguiente en un bucle while -> Condiciones de parada:
-    #                                                - Iteraciones
-    #                                                - Convergencia
+    it = 0
+    while(1):
+        it += 1
+        f1 = 0
+        pobActual = pobAnterior         # Le doy el mismo valor que la poblacion anterior y luego cambio los genes que mutan
+        
+        # Nueva poblacion -> Mutacion
+        for i in range(len(poblacion)):   
+            cambios1 = random.sample(range(len(poblacion[i].listaIds)), k = 3)
+            cambios2 = random.sample(cambios1, k=len(cambios1))
+            for q in range(len(cambios1)):
+                pobActual[i].listaIds[cambios1[q]] = pobAnterior[i].listaIds[cambios2[q]]
 
-    # Nueva poblacion -> Mutacion
-    pobActual = []
-    f1 = 0
-    for i in range(len(poblacion)):
-        cambios1 = random.sample(range(len(poblacion[i].listaIds)), k = 3)
-        cambios2 = random.sample(cambios1, k=len(cambios1))
-        for q in range(len(cambios1)):
-            pobActual[i].listaIds[cambios1[q]] = pobAnterior[i].listaIds[cambios2[q]]
+            # Se modifica la grilla con los nuevos id 
+            j = 0
+            for f in range(G.filas):
+                for c in range(G.columnas):
+                    G.grilla[f][c].id = pobActual[i].listaIds[j]
+                    j += 1
 
-        # Se modifica la grilla con los nuevos id 
-        j = 0
-        for f in range(G.filas):
-            for c in range(G.columnas):
-                G.grilla[f][c].id = pobActual[i].listaIds[j]
-                j += 1
+            pobActual[i].setFitness(listaOrdenes, G)
+            f1 = f1 + pobActual[i].fitness
+        
+        fitnessPobActual = f1 / len(pobActual)       # Promedio, esta bien?
 
-        pobActual[i].setFitness(listaOrdenes, G)
-        f1 = f1 + pobActual[i].fitness
-    
-    fitnessPobActual = f1 / len(pobActual)       # Promedio, esta bien?
-    # Actualizar Actual como Anterior para evaluarlo en el siguiente bucle
+        if (fitnessPobActual - fitnessPobAnterior) <= delta:
+            break
 
+        if it >= 100:
+            break
 
+        pobAnterior = pobActual             # Esta bien esta atualizacion?
 
-    # Evaluar el delta entre el fitness de la POBLACION actual c/r a la anterior
-    
-    # Para finalizar se elige al mejor INDIVIDUO de la poblacion 
+    # Se elige al mejor INDIVIDUO de la poblacion 
+    fit = []
+    for i in range(len(pobActual)): 
+        fit[i] = pobActual[i].fitness
+
+    mejorFit = min(fit)
+    i_min = fit.index(mejorFit)
+    mejorIndividuo = pobActual[i_min]
+
+    print(mejorIndividuo)
