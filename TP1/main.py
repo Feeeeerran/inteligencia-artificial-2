@@ -1,5 +1,6 @@
 from encodings import utf_8
 import os
+from random import *
 
 
 # Propios
@@ -31,17 +32,28 @@ print(" >> Martinez Ferran")
 
 G.setEstanterias()
 # Por ahora no le preguntamos a nadie, seteamos directamente desde aqui todo
-# G.setFilasColumnas()
+G.setFilasColumnas()
 G.setGrilla()
 G.asignarVecinos()
 
 # Definimos cuales van a ser los nodos o posiciones de carga y descarga
-G.carga = G.grilla[0][0]
-G.descarga = G.grilla[0][0]
-
+G.carga = G.grilla[G.filas-1][G.columnas-1]
+G.descarga = G.grilla[G.filas-1][G.columnas-1]
 
 
 
 ordenes = orders("ordenes")
+# print(G.estanterias)
+
+
+
+
+ordenNuevo,costo = simAnnealing(ordenes[0],G)
+print(ordenNuevo)
+print(costo)
+
+
  
-geneticAlg(ordenes[0:1],G)
+
+
+# geneticAlg(ordenes[0:1],G)

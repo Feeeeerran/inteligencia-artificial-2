@@ -7,7 +7,8 @@ from ejercicio_3.genoma import Genoma
 
 def geneticAlg(listaOrdenes,G):
 
-    delta = 0.1             # Ver cual es el valor optimo
+    # Ver cual es el valor optimo
+    delta = 0.1
 
     # Recorrer la grilla evaluando cada nodo de la misma
     # Formar un arreglo con los id de cada nodo
@@ -18,11 +19,14 @@ def geneticAlg(listaOrdenes,G):
             if G.grilla[f][c].id != 0:
                 lista.append(G.grilla[f][c].id)
                 i += 1
+    print("Termina de recorrer la grilla 1")
 
     # Creo los individuos de la primera generacion 
     poblacion = []
     f = 0
+
     for i in range(10):                
+
         poblacion.append(Genoma(i+1))
         poblacion[i].listaIds = random.sample(lista, k = len(lista))
         
@@ -33,13 +37,17 @@ def geneticAlg(listaOrdenes,G):
                     G.grilla[f][c].id = poblacion[i].listaIds[j]
                     j += 1
 
+        print("Termina de recorrer la grilla 2")
+        
+
         f += poblacion[i].setFitness(listaOrdenes, G)
     
+    print("Antes de entrar al while")
     pobAnterior = poblacion
     fitnessPobAnterior = f / len(pobAnterior)    
 
     it = 0
-    while(1):
+    while(True):
         it += 1
 
         # Agregar crossover

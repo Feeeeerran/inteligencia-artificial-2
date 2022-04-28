@@ -9,7 +9,7 @@ class Genoma:
     def setFitness(self, listaOrdenes, G):
         costo = 0
         for i in range(len(listaOrdenes)):
-            costoTemple = simAnnealing(listaOrdenes[i], G)      # que pasa con el otro valor que devuelve simAnnealing?
-            costo = costo + costoTemple                         # cambiar los argumentos de entrada de simAnnealing
+            orden, costoTemple = simAnnealing(listaOrdenes[i], G)
+            costo = costo + costoTemple
         self.fitness = costo
         return costo
