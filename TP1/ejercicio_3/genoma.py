@@ -12,3 +12,4 @@ class Genoma:
             costoTemple = simAnnealing(listaOrdenes[i], G)      # que pasa con el otro valor que devuelve simAnnealing?
             costo = costo + costoTemple                         # cambiar los argumentos de entrada de simAnnealing
         self.fitness = costo
+        return costo

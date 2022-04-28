@@ -3,40 +3,40 @@ import random
 from a_estrella.a_estrella import *
 from grilla.grilla import *
 from ejercicio_2.temple_simulado import *
-from genoma import Genoma
+from ejercicio_3.genoma import Genoma
 
-def geneticAlg(G, listaOrdenes):
+def geneticAlg(listaOrdenes,G):
 
-    individuo = Genoma(1)
     delta = 0.1             # Ver cual es el valor optimo
 
     # Recorrer la grilla evaluando cada nodo de la misma
     # Formar un arreglo con los id de cada nodo
     i = 0
+    lista = []
     for f in range(G.filas):
         for c in range(G.columnas):
             if G.grilla[f][c].id != 0:
-                individuo.listaIds[i] = G.grilla[f][c].id
+                lista.append(G.grilla[f][c].id)
                 i += 1
 
     # Creo los individuos de la primera generacion 
     poblacion = []
     f = 0
-    for i in range(15):                  # 15 = tamano de la poblacion
-        poblacion[i] = Genoma(i)                                                    # Estoy sobreescribiendo genoma(1)?
-        poblacion[i].listaIds = random.sample(individuo.listaIds, k = len(individuo.listaIds))
+    for i in range(15):                
+        poblacion.append(Genoma(i+1))
+        poblacion[i].listaIds = random.sample(lista, k = len(lista))
         
         j = 0
         for f in range(G.filas):
             for c in range(G.columnas):
-                G.grilla[f][c].id = poblacion[i].listaIds[j]
-                j += 1
+                if G.grilla[f][c].id != 0:
+                    G.grilla[f][c].id = poblacion[i].listaIds[j]
+                    j += 1
 
-        poblacion[i].setFitness(listaOrdenes, G)
-        f = f + poblacion[i].fitness
+        f += poblacion[i].setFitness(listaOrdenes, G)
     
     pobAnterior = poblacion
-    fitnessPobAnterior = f / len(pobAnterior)       # Promedio, esta bien?
+    fitnessPobAnterior = f / len(pobAnterior)    
 
     it = 0
     while(1):
@@ -55,11 +55,11 @@ def geneticAlg(G, listaOrdenes):
             j = 0
             for f in range(G.filas):
                 for c in range(G.columnas):
-                    G.grilla[f][c].id = pobActual[i].listaIds[j]
-                    j += 1
+                    if G.grilla[f][c].id != 0:
+                        G.grilla[f][c].id = pobActual[i].listaIds[j]
+                        j += 1
 
-            pobActual[i].setFitness(listaOrdenes, G)
-            f1 = f1 + pobActual[i].fitness
+            f1 += pobActual[i].setFitness(listaOrdenes, G)
         
         fitnessPobActual = f1 / len(pobActual)       # Promedio, esta bien?
 
@@ -69,12 +69,12 @@ def geneticAlg(G, listaOrdenes):
         if it >= 100:
             break
 
-        pobAnterior = pobActual             # Esta bien esta atualizacion?
+        pobAnterior = pobActual          
 
     # Se elige al mejor INDIVIDUO de la poblacion 
     fit = []
     for i in range(len(pobActual)): 
-        fit[i] = pobActual[i].fitness
+        fit.append(pobActual[i].fitness)
 
     mejorFit = min(fit)
     i_min = fit.index(mejorFit)

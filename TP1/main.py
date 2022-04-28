@@ -7,6 +7,7 @@ import os
 from grilla.grilla import Grilla
 from ejercicio_2.temple_simulado import simAnnealing
 from ordenes.get_orders import orders
+from ejercicio_3.algoritmo_genetico import geneticAlg
 # from a_estrella.a_estrella import AStar
 
 os.system("cls")
@@ -28,9 +29,9 @@ print(" >> Martinez Ferran")
 # Decimos que viene con esos valores por defecto, preguntamos si se quiere o no
 # Si se quieren entonces seteamos filas y columnas
 
-
+G.setEstanterias()
 # Por ahora no le preguntamos a nadie, seteamos directamente desde aqui todo
-G.setFilasColumnas()
+# G.setFilasColumnas()
 G.setGrilla()
 G.asignarVecinos()
 
@@ -41,10 +42,6 @@ G.descarga = G.grilla[0][0]
 
 
 
-# Probando temple simulado
-orden = [12,5,8,1,3,6,23,15,18,19,30,10]
-
 ordenes = orders("ordenes")
-print(ordenes[8])
  
-
+geneticAlg(ordenes[0:1],G)
