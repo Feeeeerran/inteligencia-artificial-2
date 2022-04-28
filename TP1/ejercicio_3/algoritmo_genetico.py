@@ -7,7 +7,8 @@ from ejercicio_3.genoma import Genoma
 
 def geneticAlg(listaOrdenes,G):
 
-    delta = 0.1             # Ver cual es el valor optimo
+    # Ver cual es el valor optimo
+    delta = 0.1
 
     # Recorrer la grilla evaluando cada nodo de la misma
     # Formar un arreglo con los id de cada nodo
@@ -18,11 +19,12 @@ def geneticAlg(listaOrdenes,G):
             if G.grilla[f][c].id != 0:
                 lista.append(G.grilla[f][c].id)
                 i += 1
+    print("Termina de recorrer la grilla 1")
 
     # Creo los individuos de la primera generacion 
     poblacion = []
     f = 0
-    for i in range(15):                
+    for i in range(15):
         poblacion.append(Genoma(i+1))
         poblacion[i].listaIds = random.sample(lista, k = len(lista))
         
@@ -33,17 +35,22 @@ def geneticAlg(listaOrdenes,G):
                     G.grilla[f][c].id = poblacion[i].listaIds[j]
                     j += 1
 
+        print("Termina de recorrer la grilla 2")
+        
+
         f += poblacion[i].setFitness(listaOrdenes, G)
     
+    print("Antes de entrar al while")
     pobAnterior = poblacion
     fitnessPobAnterior = f / len(pobAnterior)    
 
     it = 0
-    while(1):
+    while(True):
         it += 1
         f1 = 0
         pobActual = pobAnterior         # Le doy el mismo valor que la poblacion anterior y luego cambio los genes que mutan
         
+        print("Dentro del while antes de entrar al for")
         # Nueva poblacion -> Mutacion
         for i in range(len(poblacion)):   
             cambios1 = random.sample(range(len(poblacion[i].listaIds)), k = 3)
@@ -53,11 +60,16 @@ def geneticAlg(listaOrdenes,G):
 
             # Se modifica la grilla con los nuevos id 
             j = 0
+            print("Antes de recorrer la grilla 3")
+
             for f in range(G.filas):
                 for c in range(G.columnas):
                     if G.grilla[f][c].id != 0:
                         G.grilla[f][c].id = pobActual[i].listaIds[j]
                         j += 1
+            
+            print("Termina de recorrer la grilla 3")
+                
 
             f1 += pobActual[i].setFitness(listaOrdenes, G)
         
