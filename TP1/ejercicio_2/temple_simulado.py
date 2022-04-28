@@ -12,19 +12,21 @@ from grilla.grilla import *
 # IMPORTANTE
 # Hay que añadir la bahia de carga y descarga
 
-def simAnnealing(orden,carga,descarga,G):
+def simAnnealing(orden,G):
+    carga = G.carga
+    descarga = G.descarga
 
     # Funcion T (momentaneamente lineal, podria pasarse como parametro)
-    T = 10
+    T = 300
 
     # Arreglo de ordenes para no repetir calculos
     ordenes = []
     ordenes.append(orden)
 
     # Arreglo para guardar el orden final (seleccionado a retornar)
-    ordenFinal = [None] * len(orden)
+    ordenSel = [None] * len(orden)
 
-    # Pasamos la orden a orden de nodos
+    # Pasamos la orden a orden de nodos --> para poder usar AStar
     for i in range(len(orden)):
         flag = False
         for f in range(G.filas):
@@ -37,41 +39,46 @@ def simAnnealing(orden,carga,descarga,G):
                 break
 
     
-    # Hacemos un setup para sacar el coste
-
-    costo = costoTotal(orden,carga,descarga,G)
+    # Hacemos un setup para sacar el coste inicial
+    costo = costoTotal(orden,carga,descarga)
 
     # Tomamos la orden y calculamos su E, el cual nos sirve para comparar con otras combinaciones 
     while T != 0:
-        # Hacemos el shuffle a los elementos del arreglo
+        # Hacemos el shuffle a los elementos del arreglo (nodos)
         np.random.shuffle(orden)
 
-        # Sacamos E nuevo
-        nuevoCosto = costoTotal(orden,carga,descarga,G)
+        # Sacamos nuevo E
+        nuevoCosto = costoTotal(orden,carga,descarga)
 
-        # Quitamos la carga y descarga
-        
-        if nuevoCosto < costo:
-            # Si el nuevo valor de E es menor al anterior, reemplazamos por esa orden
-            # Pasamos los id de estanterias a una lista
-            for i in range(len(orden)):
-                ordenFinal[i] = orden[i].id
+        # Evitamos revisar combinaciones ya revisadas
+        if (aLista(orden) not in ordenes):
+            if nuevoCosto < costo:
+                # Si el nuevo valor de E es menor al anterior, reemplazamos por esa orden
+                # Pasamos los id de estanterias a una lista
+                ordenSel = aLista(orden)
 
-            # Agregamos la orden evaluada a la lista de ordenes
-            ordenes.append(ordenFinal)
-            costo = nuevoCosto
-        # else:
-            # Si la orden es peor, la agarramos segun una probabilidad
-            # print(pow(e,(costo - nuevoCosto)/T))
+                # Agregamos la orden evaluada a la lista de ordenes
+                ordenes.append(ordenSel)
+                costo = nuevoCosto
+            # else:
+            #     # Si la orden es peor, la agarramos segun una probabilidad
+            #     probabilidad = pow(e,(costo - nuevoCosto)/T) > random.random()
 
-            # ¡¡¡ Es realmente necesaria la probabilidad 🤔 !!!
+            #     # probabilidad es un booleano
+            #     if probabilidad:
+            #         ordenSel = aLista(orden)
+
+            #         # Agregamos la orden evaluada a la lista de ordenes
+            #         ordenes.append(ordenSel)
+            #         costo = nuevoCosto
+
 
         # Por ahora lineal 😬
         T -= 1 
 
-
+    
         if T == 0:
-            return ordenFinal, costo 
+            return ordenSel, costo 
         
     
 
@@ -79,17 +86,25 @@ def simAnnealing(orden,carga,descarga,G):
      
 # La funcion calcula el costo total en base a una orden
 # Se puede agregar que revise si una distancia ya se calculo anteriormente
-def costoTotal(orden,carga,descarga,G):
+def costoTotal(orden,carga,descarga):
+    "Calcula el costo total de la trayectoria segun una lista de ordenes. Se tiene en cuenta nodos de carga y descarga"
     suma = 0
     # Añadimos el calculo de carga
-    suma = AStar(carga,orden[0],G)
+    suma = AStar(carga,orden[0])
     
     # Calculamos el intermedio
     for i in range(len(orden) - 1):
-        suma +=  AStar(orden[i],orden[i+1],G)
+        suma +=  AStar(orden[i],orden[i+1])
     
     # Añadimos el calculo de descarga
-    suma += AStar(orden[len(orden) - 1],descarga,G)
+    suma += AStar(orden[len(orden) - 1],descarga)
     # os.system('cls')
     return suma
 
+
+def aLista(nodos):
+    "Convierte una lista de nodos a una lista con el mismo orden pero de sus id"
+    lista = [None] * len(nodos)
+    for i in range(len(nodos)):
+        lista[i] = nodos[i].id
+    return lista

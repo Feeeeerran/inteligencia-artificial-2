@@ -4,3 +4,6 @@ A tener en cuenta
 
 
 > Deberiamos colocar un error en el a estrella
+> Deberiamos añadir costos a otros nodos en temple simulado 🤔
+
+> En temple simulado, si quitamos la parte probabilistica, obtenemos mejores resultados

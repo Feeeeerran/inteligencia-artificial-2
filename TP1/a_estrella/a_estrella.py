@@ -1,25 +1,34 @@
 import os
 
 # P1 y p2 tienen que ser nodos (instancias de Nodo) de la grilla
-def AStar(p1,p2,grilla):
+def AStar(p1,p2):
     listaAbierta = []
     listaCerrada = []
     # Encontramos los nodos de partida y llegada
     # No partimos desde la estanteria, partimos desde el frente de la misma
-    if p1.id%2 == 0:
-        p1 = grilla.grilla[p1.y][p1.x+1]
-    else:
-        p1 = grilla.grilla[p1.y][p1.x-1]
-    if p2.id%2 == 0:
-        p2 = grilla.grilla[p2.y][p2.x+1]
-    else:
-        p2 = grilla.grilla[p2.y][p2.x-1]
+
+    # p1 y p2 pueden no ser estanterias entonces 👇
+    if p1.estanteria:
+        if p1.id%2 == 0:
+            p1 = p1.vecinos[0]
+        else:
+            p1 = p1.vecinos[1]
+    
+    if p2.estanteria:
+        if p2.id%2 == 0:
+            p2 = p2.vecinos[0]
+        else:
+            p2 = p2.vecinos[1]
 
     # Set inicial para que el algoritmo arranque tranquilo 😎
     listaAbierta.append(p1)
     listaAbierta[0].setF(p2,0)
     nodoActual = None
 
+
+    # Si p1 y p2 son iguales
+    if p1 == p2:
+        return 0
 
     while len(listaAbierta) != 0 and nodoActual != p2:
         menorF = listaAbierta[0].f
