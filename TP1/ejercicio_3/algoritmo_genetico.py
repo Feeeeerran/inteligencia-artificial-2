@@ -22,7 +22,7 @@ def geneticAlg(listaOrdenes,G):
     # Creo los individuos de la primera generacion 
     poblacion = []
     f = 0
-    for i in range(15):                
+    for i in range(10):                
         poblacion.append(Genoma(i+1))
         poblacion[i].listaIds = random.sample(lista, k = len(lista))
         
@@ -41,27 +41,10 @@ def geneticAlg(listaOrdenes,G):
     it = 0
     while(1):
         it += 1
-        f1 = 0
-        pobActual = pobAnterior         # Le doy el mismo valor que la poblacion anterior y luego cambio los genes que mutan
-        
-        # Nueva poblacion -> Mutacion
-        for i in range(len(poblacion)):   
-            cambios1 = random.sample(range(len(poblacion[i].listaIds)), k = 3)
-            cambios2 = random.sample(cambios1, k=len(cambios1))
-            for q in range(len(cambios1)):
-                pobActual[i].listaIds[cambios1[q]] = pobAnterior[i].listaIds[cambios2[q]]
 
-            # Se modifica la grilla con los nuevos id 
-            j = 0
-            for f in range(G.filas):
-                for c in range(G.columnas):
-                    if G.grilla[f][c].id != 0:
-                        G.grilla[f][c].id = pobActual[i].listaIds[j]
-                        j += 1
-
-            f1 += pobActual[i].setFitness(listaOrdenes, G)
-        
-        fitnessPobActual = f1 / len(pobActual)       # Promedio, esta bien?
+        # Agregar crossover
+        # Mutacion 
+        pobActual,fitnessPobActual = mutacion(pobAnterior,G,listaOrdenes)            
 
         if (fitnessPobActual - fitnessPobAnterior) <= delta:
             break
@@ -81,3 +64,50 @@ def geneticAlg(listaOrdenes,G):
     mejorIndividuo = pobActual[i_min]
 
     print(mejorIndividuo)
+
+def mutacion(pobAnterior,G,listaOrdenes):
+    # Le doy el mismo valor que la poblacion anterior y luego cambio los genes que mutan
+    pobActual = pobAnterior
+
+    f1 = 0
+    for i in range(len(pobActual)):   
+        cambios1 = random.sample(range(len(pobActual[i].listaIds)), k = 3)
+        cambios2 = random.sample(cambios1, k=len(cambios1))
+        for q in range(len(cambios1)):
+            pobActual[i].listaIds[cambios1[q]] = pobAnterior[i].listaIds[cambios2[q]]
+
+        # Se modifica la grilla con los nuevos id 
+        j = 0
+        for f in range(G.filas):
+            for c in range(G.columnas):
+                if G.grilla[f][c].id != 0:
+                    G.grilla[f][c].id = pobActual[i].listaIds[j]
+                    j += 1
+
+        f1 += pobActual[i].setFitness(listaOrdenes, G)
+    fitnessPobActual = f1 / len(pobActual) 
+
+    return pobActual, fitnessPobActual
+
+def crossover(pobAnterior):
+
+    pobActual = pobAnterior
+    l = len(pobAnterior[0].listaIds)
+
+    for i in range(len(pobAnterior) - 1):
+        c = random.sample(range(l), k = 2)
+        c1 = min(c)
+        c2 = max(c)
+        # c = [ , ]
+        # Cross entre pobAnterior[i] y pobAnterior[i+1]
+
+        pobActual[i].listaIds[c1:c2] = pobAnterior[i+1].listaIds[c1:c2]
+        pobActual[i+1].listaIds[c1:c2] = pobAnterior[i].listaIds[c1:c2]
+
+
+        for j in range(c1, c2):
+            del pobAnterior[i].listaIds[j]
+        
+        while k != c1:
+            pobActual[i].listaIds[k] = 
+            if k = len(pobActual) 
