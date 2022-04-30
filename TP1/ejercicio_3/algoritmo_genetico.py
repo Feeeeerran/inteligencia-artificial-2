@@ -117,7 +117,17 @@ def mutacion(pobAnterior,G,listaOrdenes):
 #         for j in range(c1, c2):
 #             del pobAnterior[i].listaIds[j]
         
-#         while k != c1:
-#             pobActual[i].listaIds[k] = 
-#             if k = len(pobActual) 
+        k = c2 + 1
+        k1 = c1
+        while k != c1:
+            pobActual[i].listaIds[k] = pobAnterior[i].listaIds[k1]
 
+            if k1 == len(pobAnterior):
+                k1 = 1 
+            else:
+                k1 += 1
+
+            if k == len(pobActual):
+                k = 1 
+            else:
+                k += 1
