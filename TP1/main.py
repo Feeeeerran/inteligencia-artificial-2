@@ -43,8 +43,7 @@ G.descarga = G.grilla[0][0]
 
 
 ordenes = orders("ordenes")
-
-geneticAlg(ordenes[1:2],G)
+geneticAlg(ordenes[1:3],G)
 
 # simAnnealing(ordenes[0],G)
 

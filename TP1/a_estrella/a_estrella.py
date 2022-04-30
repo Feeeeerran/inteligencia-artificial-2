@@ -2,12 +2,6 @@ import os
 
 # P1 y p2 tienen que ser nodos (instancias de Nodo) de la grilla
 def AStar(p1,p2):
-    print("Entra p1",p1.id)
-    print("p1 x ",p1.x)
-    print("p1 y ",p1.y)
-    print("Entra p2",p2.id)
-    print("p2 x ",p2.x)
-    print("p2 y ",p2.y)
     listaAbierta = []
     listaCerrada = []
     # Encontramos los nodos de partida y llegada
@@ -31,13 +25,6 @@ def AStar(p1,p2):
     listaAbierta[0].setF(p2,0)
     nodoActual = None
 
-    print("Sale p1",p1.id)
-    print("p1 x ",p1.x)
-    print("p1 y ",p1.y)
-    print("Sale p2",p2.id)
-    print("p2 x ",p2.x)
-    print("p2 y ",p2.y)
-    a = input("STOP")
     # Si p1 y p2 son iguales
     if p1 == p2:
         return 0

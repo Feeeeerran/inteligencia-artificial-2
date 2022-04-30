@@ -42,7 +42,6 @@ def simAnnealing(orden,G):
     
     # Hacemos un setup para sacar el coste inicial
     costo = costoTotal(orden,carga,descarga)
-    print("Coste inicial ",costo)
     # Tomamos la orden y calculamos su E, el cual nos sirve para comparar con otras combinaciones 
     while T != 0:
         # Hacemos el shuffle a los elementos del arreglo (nodos)
@@ -96,21 +95,15 @@ def costoTotal(orden,carga,descarga):
     "Calcula el costo total de la trayectoria segun una lista de ordenes. Se tiene en cuenta nodos de carga y descarga"
     suma = 0
     # Añadimos el calculo de carga
-    print("Llama a estrella 1")
     suma = AStar(carga,orden[0])
-    print("Sale de estrella 1")
 
     # Calculamos el intermedio
-    print("Llama a estrella 2")
     for i in range(len(orden) - 1):
         suma +=  AStar(orden[i],orden[i+1])
-    print("Sale de estrella 2")
     
     # Añadimos el calculo de descarga
-    print("Sale de estrella 3")
     suma += AStar(orden[len(orden) - 1],descarga)
     # os.system('cls')
-    print("Sale de estrella 3")
 
 
     return suma
