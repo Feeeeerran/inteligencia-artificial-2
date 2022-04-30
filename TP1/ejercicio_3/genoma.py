@@ -9,7 +9,10 @@ class Genoma:
     def setFitness(self, listaOrdenes, G):
         costo = 0
         for i in range(len(listaOrdenes)):
+            print(i)
+            print(listaOrdenes[i])
             orden, costoTemple = simAnnealing(listaOrdenes[i], G)
+            
             costo = costo + costoTemple
         self.fitness = costo
         return costo

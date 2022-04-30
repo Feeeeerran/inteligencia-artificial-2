@@ -66,8 +66,8 @@ class Grilla:
 
                 # Vecinos horizontales
                 if nodo.x > 0 and nodo.x < columnas-1:
-                    grilla[f][c].vecinos.append(grilla[f][c+1])
                     grilla[f][c].vecinos.append(grilla[f][c-1])
+                    grilla[f][c].vecinos.append(grilla[f][c+1])
                 elif nodo.x == 0:
                     grilla[f][c].vecinos.append(grilla[f][c+1])
                 elif nodo.x == columnas-1:
@@ -75,8 +75,8 @@ class Grilla:
 
                 # Vecinos verticales
                 if nodo.y > 0 and nodo.y < filas-1:
-                    grilla[f][c].vecinos.append(grilla[f+1][c])
                     grilla[f][c].vecinos.append(grilla[f-1][c])
+                    grilla[f][c].vecinos.append(grilla[f+1][c])
                 elif nodo.y == 0:
                     grilla[f][c].vecinos.append(grilla[f+1][c])
                 elif nodo.y == filas-1:

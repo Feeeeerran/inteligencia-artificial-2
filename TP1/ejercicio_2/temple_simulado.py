@@ -13,11 +13,12 @@ from grilla.grilla import *
 # Hay que añadir la bahia de carga y descarga
 
 def simAnnealing(orden,G):
+    
     carga = G.carga
     descarga = G.descarga
 
     # Funcion T (momentaneamente lineal, podria pasarse como parametro)
-    T = 500
+    T = 1
 
     # Arreglo de ordenes para no repetir calculos
     ordenes = []
@@ -69,7 +70,6 @@ def simAnnealing(orden,G):
             else:
                 # Si la orden es peor, la agarramos segun una probabilidad
                 probabilidad = pow(e,(costo - nuevoCosto)/T) > random()
-                print(pow(e,(costo - nuevoCosto)/T))
                 # probabilidad es un booleano
                 if probabilidad:
                     ordenSel = aLista(orden)
@@ -96,15 +96,23 @@ def costoTotal(orden,carga,descarga):
     "Calcula el costo total de la trayectoria segun una lista de ordenes. Se tiene en cuenta nodos de carga y descarga"
     suma = 0
     # Añadimos el calculo de carga
+    print("Llama a estrella 1")
     suma = AStar(carga,orden[0])
-    
+    print("Sale de estrella 1")
+
     # Calculamos el intermedio
+    print("Llama a estrella 2")
     for i in range(len(orden) - 1):
         suma +=  AStar(orden[i],orden[i+1])
+    print("Sale de estrella 2")
     
     # Añadimos el calculo de descarga
+    print("Sale de estrella 3")
     suma += AStar(orden[len(orden) - 1],descarga)
     # os.system('cls')
+    print("Sale de estrella 3")
+
+
     return suma
 
 

@@ -1,4 +1,5 @@
-import random
+from random import *
+from numpy import arange
 
 from a_estrella.a_estrella import *
 from grilla.grilla import *
@@ -13,33 +14,33 @@ def geneticAlg(listaOrdenes,G):
     # Recorrer la grilla evaluando cada nodo de la misma
     # Formar un arreglo con los id de cada nodo
     i = 0
-    lista = []
-    for f in range(G.filas):
-        for c in range(G.columnas):
-            if G.grilla[f][c].id != 0:
-                lista.append(G.grilla[f][c].id)
-                i += 1
-    print("Termina de recorrer la grilla 1")
 
+
+    # ❌ Estabamos sacando ids de la grilla cuando ya existe una propiedad llamada estanterias que trae la cantidad de estanterias
+    # lista = []
+    # for f in range(G.filas):
+    #     for c in range(G.columnas):
+    #         if G.grilla[f][c].id != 0:
+    #             lista.append(G.grilla[f][c].id)
+    #             i += 1
+    
     # Creo los individuos de la primera generacion 
     poblacion = []
     f = 0
 
     for i in range(10):                
-
         poblacion.append(Genoma(i+1))
-        poblacion[i].listaIds = random.sample(lista, k = len(lista))
+        poblacion[i].listaIds = sample(range(1,G.estanterias + 1),G.estanterias)
         
         j = 0
-        for f in range(G.filas):
-            for c in range(G.columnas):
+        for f in range(1,G.filas):
+            for c in range(1,G.columnas):
                 if G.grilla[f][c].id != 0:
                     G.grilla[f][c].id = poblacion[i].listaIds[j]
                     j += 1
 
-        print("Termina de recorrer la grilla 2")
-        
 
+        
         f += poblacion[i].setFitness(listaOrdenes, G)
     
     print("Antes de entrar al while")
@@ -79,8 +80,8 @@ def mutacion(pobAnterior,G,listaOrdenes):
 
     f1 = 0
     for i in range(len(pobActual)):   
-        cambios1 = random.sample(range(len(pobActual[i].listaIds)), k = 3)
-        cambios2 = random.sample(cambios1, k=len(cambios1))
+        cambios1 = sample(range(len(pobActual[i].listaIds)), k = 3)
+        cambios2 = sample(cambios1, k=len(cambios1))
         for q in range(len(cambios1)):
             pobActual[i].listaIds[cambios1[q]] = pobAnterior[i].listaIds[cambios2[q]]
 
@@ -97,25 +98,26 @@ def mutacion(pobAnterior,G,listaOrdenes):
 
     return pobActual, fitnessPobActual
 
-def crossover(pobAnterior):
+# def crossover(pobAnterior):
 
-    pobActual = pobAnterior
-    l = len(pobAnterior[0].listaIds)
+#     pobActual = pobAnterior
+#     l = len(pobAnterior[0].listaIds)
 
-    for i in range(len(pobAnterior) - 1):
-        c = random.sample(range(l), k = 2)
-        c1 = min(c)
-        c2 = max(c)
-        # c = [ , ]
-        # Cross entre pobAnterior[i] y pobAnterior[i+1]
+#     for i in range(len(pobAnterior) - 1):
+#         c = random.sample(range(l), k = 2)
+#         c1 = min(c)
+#         c2 = max(c)
+#         # c = [ , ]
+#         # Cross entre pobAnterior[i] y pobAnterior[i+1]
 
-        pobActual[i].listaIds[c1:c2] = pobAnterior[i+1].listaIds[c1:c2]
-        pobActual[i+1].listaIds[c1:c2] = pobAnterior[i].listaIds[c1:c2]
+#         pobActual[i].listaIds[c1:c2] = pobAnterior[i+1].listaIds[c1:c2]
+#         pobActual[i+1].listaIds[c1:c2] = pobAnterior[i].listaIds[c1:c2]
 
 
-        for j in range(c1, c2):
-            del pobAnterior[i].listaIds[j]
+#         for j in range(c1, c2):
+#             del pobAnterior[i].listaIds[j]
         
-        while k != c1:
-            pobActual[i].listaIds[k] = 
-            if k = len(pobActual) 
+#         while k != c1:
+#             pobActual[i].listaIds[k] = 
+#             if k = len(pobActual) 
+
