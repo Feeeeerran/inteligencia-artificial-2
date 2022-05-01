@@ -52,6 +52,11 @@ def geneticAlg(listaOrdenes,G):
         # Crossover deberia ser una funcion que tome de a dos
         # Entonces como poblacion esta ordenado de mejor fitness a peor fitness nos aseguramos el mejor cross over con los dos primeros
 
+        # Recorre toda la poblacion
+        for i in range(len(poblacion)-1):
+            # Evalua el primer y segundo individuo
+            crossover([poblacion[i].lista,poblacion[i+1].lista])    
+            # Ver como reemplazo los individuos viejos por los nuevos
 
         # Mutacion 👇
         totalFit.append({})
@@ -66,9 +71,7 @@ def geneticAlg(listaOrdenes,G):
                     intentos += 1 
             
             # Agregamos al historial de fitness por generacion
-            totalFit[gen][fitIndividuo] = listaMutada
-        
-                
+            totalFit[gen][fitIndividuo] = listaMutada 
 
         gen += 1
 
@@ -123,7 +126,7 @@ def mutacion(individuo,listaOrdenes,n,G):
     # Sacamos las posiciones de los cambios
     pos = []
     for i in range(len(cambios)):
-        pos.append(cambios.index(cambios[i]))
+        pos.append(cambios.index(cambios[i]))   #pos.append((individuo.lista).index(cambios[i]))
 
     # Sale shuffle
     shuffle(cambios)
@@ -141,42 +144,51 @@ def mutacion(individuo,listaOrdenes,n,G):
                 G.grilla[f][c].id = individuo.lista[j]
                 j += 1
 
-
-
     fitness = individuo.setFitness(listaOrdenes, G)
 
     return fitness, individuo.lista
 
-# def crossover(genAnterior):
 
-#     genActual = genAnterior
-#     l = len(genAnterior[0].lista)
+# Crossover deberia ser una funcion que tome de a dos
+# Entonces como poblacion esta ordenado de mejor fitness a peor fitness nos aseguramos el mejor cross over con los dos primeros
 
-#     for i in range(len(genAnterior) - 1):
-#         c = random.sample(range(l), k = 2)
-#         c1 = min(c)
-#         c2 = max(c)
-#         # c = [ , ]
-#         # Cross entre genAnterior[i] y genAnterior[i+1]
+def crossover(individuo1, individuo2):     # genAnterior: Arreglo de 2 individuos
 
-#         genActual[i].lista[c1:c2] = genAnterior[i+1].lista[c1:c2]
-#         genActual[i+1].lista[c1:c2] = genAnterior[i].lista[c1:c2]
+    #genActual = genAnterior
+    genActual = []
+    genActual.append = genAnterior[0]     # genActual[0]
+    genActual.append = genAnterior[1]     # genActual[1]
+    l = len(genAnterior[0])
 
+    #for i in range(len(genAnterior) - 1):
+    c = random.sample(range(l), k = 2)
+    c1 = min(c)
+    c2 = max(c)
+    # c = [ , ]
+    # Cross entre genAnterior[i] y genAnterior[i+1]
 
-#         for j in range(c1, c2):
-#             del genAnterior[i].lista[j]
+    genActual[0][c1:c2] = genAnterior[1][c1:c2]
+    genActual[1][c1:c2] = genAnterior[0][c1:c2]
+    
+    relleno = []
+    k = c2 + 1
+    it = 0
+    while(1):
+
+        for h in range(c1, c2+1):
+            
+            if genAnterior[0][k] == genActual[0][h]:
+                k += 1
+                break
+            else: 
+                it += 1
+            
+            if it == len(c):
+                relleno.append(genAnterior[0][k])
+                if k == len(genAnterior[0]):
+                    k = 0
+                else: 
+                    k += 1
         
-        # k = c2 + 1
-        # k1 = c1
-        # while k != c1:
-        #     genActual[i].lista[k] = genAnterior[i].lista[k1]
-
-        #     if k1 == len(genAnterior):
-        #         k1 = 1 
-        #     else:
-        #         k1 += 1
-
-        #     if k == len(genActual):
-        #         k = 1 
-        #     else:
-        #         k += 1
+        if k == (c2 + 1):
+            break
