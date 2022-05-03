@@ -1,7 +1,10 @@
 import random
 
+ind1Ordenado = [1, 2, 3, 4, 5, 6, 8, 9]
 individuo1 = [1, 2, 3, 4, 5, 6, 8, 9]
+ind2Random = []
 individuo2 = random.sample(individuo1, len(individuo1))
+ind2Random = individuo2
 indAnterior1 = individuo1
 indAnterior2 = individuo2
 print("Lista 2: ",individuo2)
@@ -24,43 +27,80 @@ print("Individuo 1: ",individuo1)
 print("Individuo 2: ",individuo2)
 
 
-relleno = []
+relleno1 = []
+relleno2 = []
 
 if c2 != len(indAnterior1):
     k = c2 + 1
 else:
     k = 0
 
-
 while(1):
     it = 0
-    
+
     # if indAnterior1[k] in porcion2:
     #     if k == (len(indAnterior1)-1):
-    #             k = 0
+    #         print("itero")
+    #         k = 0
     #     else: 
+    #         print("aumenta k ") 
     #         k += 1
     #     break
+    # else: 
+    #    #print ("aumento it") 
+    #    it += 1
 
     for h in range(c1, c2+1):       #if in porcion
-        #print(k)
-        if indAnterior1[k] == individuo1[h]:
+        print(k)
+        print(ind1Ordenado)
+        # print(ind1Ordenado[k])
+        # print(individuo1[h])
+        if ind1Ordenado[k] == individuo1[h]:
             if k == (len(indAnterior1)-1):
                 k = 0
+                #print("k=0")
             else: 
                 k += 1
+                print("valor de k: ",k)
+                #print('\n')
             break
         else: 
             it += 1
-        
+            #print("las it son:", it)
+
     if it == lc:
-        relleno.append(indAnterior1[k])
+        relleno1.append(indAnterior1[k])
         if k == (len(indAnterior1)-1):
             k = 0
         else: 
             k += 1
-    
+
+    # for h in range(c1, c2+1): 
+
+    #     if ind2Random[k] == individuo2[h]:
+           
+    #         if k == (len(ind2Random)-1):
+    #             k = 0
+    #             #print("k=0")
+    #         else: 
+    #             k += 1
+    #             #print("valor de k: ",k)
+    #             #print('\n')
+    #         break
+    #     else: 
+    #         it += 1
+    #         #print("las it son:", it)
+
+    # if it == lc:
+    #     relleno2.append(indAnterior2[k])
+    #     if k == (len(indAnterior2)-1):
+    #         k = 0
+    #     else: 
+    #         k += 1
+
     if k == (c2 + 1):
         break
 
-print("Relleno: ", relleno)
+print(individuo1)
+print("Relleno1: ", relleno1)
+print("Relleno2: ", relleno2)
