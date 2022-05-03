@@ -78,7 +78,7 @@ def geneticAlg(listaOrdenes,G):
         # if (fitGenActual - fitGenAnterior) <= delta:
         #     break
     
-        if gen == 40: 
+        if gen == 10: 
             break
 
         if err == 0:
@@ -93,6 +93,7 @@ def geneticAlg(listaOrdenes,G):
 
     for i in range(len(totalFit)):
         print("Generacion ",i + 1)
+        print("Promedio fitness = ",sum(sorted(totalFit[i]))/len(poblacion))
         print("Mejor fitness = ",sorted(totalFit[i])[0])
         print("Orden de ids -> ",totalFit[i][sorted(totalFit[i])[0]])
         print("\n\n")
