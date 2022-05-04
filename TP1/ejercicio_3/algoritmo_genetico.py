@@ -21,7 +21,7 @@ def geneticAlg(listaOrdenes,G):
     # f sera el fitness total de todas las poblaciones
     f = 0
 
-    for i in range(10):                
+    for i in range(8):                
         poblacion.append(Genoma(i+1))
         poblacion[i].lista = sample(range(1,G.estanterias + 1),G.estanterias)
         
@@ -53,20 +53,24 @@ def geneticAlg(listaOrdenes,G):
         # Entonces como poblacion esta ordenado de mejor fitness a peor fitness nos aseguramos el mejor cross over con los dos primeros
 
         # Recorre toda la poblacion
-        for i in range(len(poblacion)-1):
-            # Evalua el primer y segundo individuo
-            crossover([poblacion[i].lista,poblacion[i+1].lista])    
-            # Ver como reemplazo los individuos viejos por los nuevos
+        for i in range(0,len(poblacion),2):
+            crossover(poblacion[i],poblacion[i+1])
+
 
         # Mutacion 👇
         totalFit.append({})
         for i in range(len(poblacion)):
-            fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,i,G) 
+            
+            # ❗❗❗
+            # La mutacion deberia ser igual en todos los individuos
+            # Es decir que mutamos la misma cantidad de genes, podria evaluarse la posibilidad de mutar segun una probabilidad
+
+            fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,3,G) 
             # Tratamos de mutar a algo mejor, entonces
             if gen > 0:
                 # Intentamos mutar 3 veces mientras el fitness obtenido sea peor que el peor (u otro individuo) fitness de la generacion anterior
                 intentos = 0
-                while fitIndividuo > sorted(totalFit[gen - 1])[2] and intentos != 3:
+                while fitIndividuo > sorted(totalFit[gen - 1])[-1] and intentos != 3:
                     fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,i,G) 
                     intentos += 1 
             
@@ -81,7 +85,7 @@ def geneticAlg(listaOrdenes,G):
         # if (fitGenActual - fitGenAnterior) <= delta:
         #     break
     
-        if gen == 10: 
+        if gen == 20: 
             break
 
         if err == 0:
@@ -98,7 +102,7 @@ def geneticAlg(listaOrdenes,G):
         print("Generacion ",i + 1)
         print("Promedio fitness = ",sum(sorted(totalFit[i]))/len(poblacion))
         print("Mejor fitness = ",sorted(totalFit[i])[0])
-        print("Orden de ids -> ",totalFit[i][sorted(totalFit[i])[0]])
+        # print("Orden de ids -> ",totalFit[i][sorted(totalFit[i])[0]])
         print("\n\n")
 
         if mejorFit > sorted(totalFit[i])[0]:
@@ -118,8 +122,7 @@ def geneticAlg(listaOrdenes,G):
 
 
 
-# Le doy el mismo valor que la poblacion anterior y luego cambio los genes que mutan
-# Mutacion devuelve un arreglo de ids mutado y el fitness total con la lista de ordenes 
+
 def mutacion(individuo,listaOrdenes,n,G):
     "Mutacion toma 3 parametros, el individuo, la lista de ordenes u orden y la grilla. Muta la propiedad lista de ids segun n cantidad de elementos. Luego devuelve un arreglo del id mutado y su valor en fitness"
     # Tomamos 3 elementos de la lista de ids a mutar
@@ -127,7 +130,7 @@ def mutacion(individuo,listaOrdenes,n,G):
     # Sacamos las posiciones de los cambios
     pos = []
     for i in range(len(cambios)):
-        pos.append(cambios.index(cambios[i]))   #pos.append((individuo.lista).index(cambios[i]))
+        pos.append((individuo.lista).index(cambios[i]))
 
     # Sale shuffle
     shuffle(cambios)
@@ -149,47 +152,53 @@ def mutacion(individuo,listaOrdenes,n,G):
 
     return fitness, individuo.lista
 
+def crossover(individuo1, individuo2):
+    "La funcion toma dos individuos, de cada uno extrae la lista y realiza el crossover. No retorna nada ya que trabaja directamente con el objeto individuo"
+    lista1 = individuo1.lista
+    lista2 = individuo2.lista
 
-# Crossover deberia ser una funcion que tome de a dos
-# Entonces como poblacion esta ordenado de mejor fitness a peor fitness nos aseguramos el mejor cross over con los dos primeros
+    # La porcion a cambiar sea de 3 elementos (ver como cambiar)
+    initPos = randint(1,len(lista1) - 3)
+    finalPos = initPos + 3
 
-def crossover(individuo1, individuo2):     # genAnterior: Arreglo de 2 individuos
+    porcion1 = lista1[initPos:finalPos]
+    porcion2 = lista2[initPos:finalPos]
 
-    #genActual = genAnterior
-    genActual = []
-    genActual.append = genAnterior[0]     # genActual[0]
-    genActual.append = genAnterior[1]     # genActual[1]
-    l = len(genAnterior[0])
+    relleno1 = []
+    relleno2 = []
 
-    #for i in range(len(genAnterior) - 1):
-    c = random.sample(range(l), k = 2)
-    c1 = min(c)
-    c2 = max(c)
-    # c = [ , ]
-    # Cross entre genAnterior[i] y genAnterior[i+1]
+    # Llenamos el relleno en el orden de la lista dada, para ello usamos dos for, uno que recorre desde donde termina el corte hasta el final de la lista
+    # y otro que va desde 0 hasta donde termina el corte (sin incluir esa posicion)
 
-    genActual[0][c1:c2] = genAnterior[1][c1:c2]
-    genActual[1][c1:c2] = genAnterior[0][c1:c2]
-    
-    relleno = []
-    k = c2 + 1
-    it = 0
-    while(1):
+    for i in range(finalPos,len(lista1)):
+        if lista1[i] not in porcion2:
+            relleno1.append(lista1[i])
+        if lista2[i] not in porcion1:
+            relleno2.append(lista2[i])
 
-        for h in range(c1, c2+1):
-            
-            if genAnterior[0][k] == genActual[0][h]:
-                k += 1
-                break
-            else: 
-                it += 1
-            
-            if it == len(c):
-                relleno.append(genAnterior[0][k])
-                if k == len(genAnterior[0]):
-                    k = 0
-                else: 
-                    k += 1
-        
-        if k == (c2 + 1):
+    for i in range(finalPos):
+        if lista1[i] not in porcion2:
+            relleno1.append(lista1[i])
+        if lista2[i] not in porcion1:
+            relleno2.append(lista2[i])
+
+    # Metemos las porciones en las listas y ya solo queda rellenar para no tener repetidos ni faltantes
+    individuo1.lista[initPos:finalPos] = porcion2
+    individuo2.lista[initPos:finalPos] = porcion1
+
+    # Se empieza a rellenar desde donde termina el corte
+    # pos funciona a modo de puntero que da la posicion desde donde se tiene que ir llenando
+    pos = finalPos
+    i = 0
+
+    while(True):
+        if pos < (len(lista1)):
+            individuo1.lista[pos] = relleno1[i]
+            individuo2.lista[pos] = relleno2[i]
+            pos += 1
+            i +=1
+        else:
+            pos = 0
+
+        if pos == initPos:
             break
