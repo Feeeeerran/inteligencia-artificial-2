@@ -19,26 +19,12 @@ def geneticAlg(listaOrdenes,G):
     # Creo los individuos de la primera generacion 
     poblacion = []
     # f sera el fitness total de todas las poblaciones
-    f = 0
 
     for i in range(8):                
         poblacion.append(Genoma(i+1))
         poblacion[i].lista = sample(range(1,G.estanterias + 1),G.estanterias)
-        
-        # Recorremos la grilla para setear nuevos valores de id a cada estanteria
-        j = 0
-        for f in range(1,G.filas - 1):
-            for c in range(1,G.columnas - 1):
-                if G.grilla[f][c].id != 0:
-                    G.grilla[f][c].id = poblacion[i].lista[j]
-                    j += 1
-
-
-        # Despues no se usa 🤔
-        f += poblacion[i].setFitness(listaOrdenes, G)
     
-    # genAnterior = poblacion
-    # fitGenAnterior = f / len(genAnterior)
+
 
     # Una vez terminado el setup de la poblacion, con un fitness inicial, se empieza iterar, mutando y haciendo crossover a traves de las generaciones
     # totalFit es un arreglo de diccionarios, la cual lleva la cuenta de los fitness y los ids relacionados
@@ -60,7 +46,6 @@ def geneticAlg(listaOrdenes,G):
         # Mutacion 👇
         totalFit.append({})
         for i in range(len(poblacion)):
-            
             # ❗❗❗
             # La mutacion deberia ser igual en todos los individuos
             # Es decir que mutamos la misma cantidad de genes, podria evaluarse la posibilidad de mutar segun una probabilidad
@@ -68,10 +53,10 @@ def geneticAlg(listaOrdenes,G):
             fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,3,G) 
             # Tratamos de mutar a algo mejor, entonces
             if gen > 0:
-                # Intentamos mutar 3 veces mientras el fitness obtenido sea peor que el peor (u otro individuo) fitness de la generacion anterior
+                # Intentamos mutar x veces mientras el fitness obtenido sea peor que el peor (u otro individuo) fitness de la generacion anterior
                 intentos = 0
-                while fitIndividuo > sorted(totalFit[gen - 1])[-1] and intentos != 3:
-                    fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,i,G) 
+                while fitIndividuo > sorted(totalFit[gen - 1])[-1] and intentos != 10:
+                    fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,3,G) 
                     intentos += 1 
             
             # Agregamos al historial de fitness por generacion
@@ -100,7 +85,8 @@ def geneticAlg(listaOrdenes,G):
 
     for i in range(len(totalFit)):
         print("Generacion ",i + 1)
-        print("Promedio fitness = ",sum(sorted(totalFit[i]))/len(poblacion))
+        promedio = (sorted(totalFit[i])[0] + sorted(totalFit[i])[-1])/2
+        print("Promedio fitness = ",promedio)
         print("Mejor fitness = ",sorted(totalFit[i])[0])
         # print("Orden de ids -> ",totalFit[i][sorted(totalFit[i])[0]])
         print("\n\n")
