@@ -18,7 +18,7 @@ def simAnnealing(orden,G):
     descarga = G.descarga
 
     # Funcion T (momentaneamente lineal, podria pasarse como parametro)
-    T = 1
+    T = 50
 
     # Arreglo de ordenes para no repetir calculos
     ordenes = []
@@ -44,9 +44,6 @@ def simAnnealing(orden,G):
     costo = costoTotal(orden,carga,descarga)
     # Tomamos la orden y calculamos su E, el cual nos sirve para comparar con otras combinaciones 
     while T != 0:
-        # Hacemos el shuffle a los elementos del arreglo (nodos)
-        # np.random.shuffle(orden)
-
         orden = permutar(orden)
 
 

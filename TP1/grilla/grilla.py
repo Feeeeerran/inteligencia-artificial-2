@@ -5,8 +5,8 @@ import os
 class Grilla:
     "Por defecto la grilla viene con 3 filas de estanterias, 3 filas de columnas y un largo de 2 estanterias en las columnas (10 x 10)"
     def __init__(self):
-        self.filasEstanterias = 3
-        self.columnasEstanterias = 3
+        self.filasEstanterias = 5
+        self.columnasEstanterias = 5
         self.largoEstanteria = 2
         self.filas = None
         self.columnas = None

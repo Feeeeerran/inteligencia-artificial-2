@@ -7,3 +7,13 @@ A tener en cuenta
 > Deberiamos añadir costos a otros nodos en temple simulado 🤔
 
 > En temple simulado, si quitamos la parte probabilistica, obtenemos mejores resultados
+
+
+
+
+> Hay que porbar con
+   > cantidad de numero ind poblacion
+   > el T en temple
+   > Las generaciones
+   > Probabilidades de cross y mutacion
+   > Numero de ordenes

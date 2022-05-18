@@ -12,6 +12,7 @@ class Genoma:
         for i in range(len(listaOrdenes)):
             orden, costoTemple = simAnnealing(listaOrdenes[i], G)
             costo += costoTemple
-
+        
         self.fitness = costo
         return costo
+

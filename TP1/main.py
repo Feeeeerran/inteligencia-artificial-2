@@ -1,7 +1,5 @@
-from encodings import utf_8
 import os
-from random import *
-from numpy import arange   
+import plotly.express as px
 
 # Propios
 # from a_estrella.a_estrella import AStar
@@ -24,13 +22,14 @@ print("\n\nIntegrantes:")
 print(" >> Costamagna Luciana")
 print(" >> Felicito Milady")
 print(" >> Martinez Ferran")
+print("\n\n\n\n\n")
 
 
 # La grilla viene por defecto con estanterias 3x3x2 (36 estanterias 10 x 10)
 # Decimos que viene con esos valores por defecto, preguntamos si se quiere o no
 # Si se quieren entonces seteamos filas y columnas
 
-G.setEstanterias()
+# G.setEstanterias()
 # Por ahora no le preguntamos a nadie, seteamos directamente desde aqui todo
 G.setFilasColumnas()
 G.setGrilla()
@@ -43,11 +42,13 @@ G.descarga = G.grilla[0][0]
 
 
 ordenes = orders("ordenes")
-geneticAlg(ordenes[1:5],G)
+result,mejores = geneticAlg(ordenes[0:5],G)
 
 # simAnnealing(ordenes[0],G)
-
-
+xx = range(3)
+print(len(result))
+fig = px.bar(x = range(len(result)), y = mejores)
+fig.write_html('plots/gen_fitness.html', auto_open = True)
  
 
 # geneticAlg(ordenes[0:1],G)

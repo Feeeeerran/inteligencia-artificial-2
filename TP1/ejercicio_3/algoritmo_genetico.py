@@ -1,6 +1,5 @@
 from random import *
-from typing import OrderedDict
-from numpy import arange
+
 
 from a_estrella.a_estrella import *
 from grilla.grilla import *
@@ -8,93 +7,77 @@ from ejercicio_2.temple_simulado import *
 from ejercicio_3.genoma import Genoma
 
 def geneticAlg(listaOrdenes,G):
+    cantInd = 8
 
-    # Ver cual es el valor optimo
-    delta = 0.1
-
-    # Recorrer la grilla evaluando cada nodo de la misma
-    # Formar un arreglo con los id de cada nodo
-    i = 0
-
-    # Creo los individuos de la primera generacion 
+    # poblacion contiene a x = cantInd cantidad de individuos
     poblacion = []
-    # f sera el fitness total de todas las poblaciones
 
-    for i in range(8):                
+    # Instanciamos los individuos segun cantidad de individuos
+    for i in range(cantInd):                
         poblacion.append(Genoma(i+1))
         poblacion[i].lista = sample(range(1,G.estanterias + 1),G.estanterias)
+        poblacion[i].setFitness(listaOrdenes,G)
     
 
 
     # Una vez terminado el setup de la poblacion, con un fitness inicial, se empieza iterar, mutando y haciendo crossover a traves de las generaciones
-    # totalFit es un arreglo de diccionarios, la cual lleva la cuenta de los fitness y los ids relacionados
-    totalFit = []
-    err = 200
-    gen = 0
+    # generaciones es una lista de diccionarios, la cual lleva la cuenta de los fitness y los ids relacionados
+    generaciones = []
+    # Cantidad de generaciones a representar
+    gen = 10
     
-    while(True):
-        err -= 1
-        # Agregar Crossover 👇
-        # Crossover deberia ser una funcion que tome de a dos
-        # Entonces como poblacion esta ordenado de mejor fitness a peor fitness nos aseguramos el mejor cross over con los dos primeros
+    for generacion in range(gen):
 
-        # Recorre toda la poblacion
+        
+        generaciones.append({})
+
+        # CrossOver 👇
         for i in range(0,len(poblacion),2):
+            # Entonces como poblacion esta ordenado de mejor fitness a peor fitness nos aseguramos el mejor cross over con los dos primeros
             crossover(poblacion[i],poblacion[i+1])
 
 
+        
         # Mutacion 👇
-        totalFit.append({})
         for i in range(len(poblacion)):
-            # ❗❗❗
-            # La mutacion deberia ser igual en todos los individuos
-            # Es decir que mutamos la misma cantidad de genes, podria evaluarse la posibilidad de mutar segun una probabilidad
-
+            # Mutamos un individuo y obtenemos su fitness y la lista correspondiente
             fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,3,G) 
-            # Tratamos de mutar a algo mejor, entonces
-            if gen > 0:
-                # Intentamos mutar x veces mientras el fitness obtenido sea peor que el peor (u otro individuo) fitness de la generacion anterior
-                intentos = 0
-                while fitIndividuo > sorted(totalFit[gen - 1])[-1] and intentos != 10:
-                    fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,3,G) 
-                    intentos += 1 
+            if generacion > 0:
+                # Para generaciones >2 intentamos mutar x veces mientras el fitness obtenido sea peor que el peor (u otro individuo) fitness de la generacion anterior
+                intentos = 10
+                while fitIndividuo > sorted(generaciones[generacion - 1])[-1] and intentos != 0:
+                    fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,i+1,G) 
+                    intentos -= 1 
             
             # Agregamos al historial de fitness por generacion
-            totalFit[gen][fitIndividuo] = listaMutada 
+            generaciones[generacion][fitIndividuo] = listaMutada 
 
-        gen += 1
 
         # Ordenamos la poblacion de mejor fitness (mas bajo) al peor fitness (mas alto)
         poblacion.sort(key = lambda x: x.fitness)
 
-        # if (fitGenActual - fitGenAnterior) <= delta:
-        #     break
     
-        if gen == 20: 
-            break
-
-        if err == 0:
-            break
-
 
 
     # Recorremos a lo largo de las generaciones
-    mejorFit = sorted(totalFit[0])[0]
+    mejores = []
+    mejorFit = sorted(generaciones[0])[0]
     mejorGen = 0
-    mejorComb = totalFit[0][mejorFit]
+    mejorComb = generaciones[0][mejorFit]
 
-    for i in range(len(totalFit)):
+    for i in range(len(generaciones)):
         print("Generacion ",i + 1)
-        promedio = (sorted(totalFit[i])[0] + sorted(totalFit[i])[-1])/2
+        promedio = (sorted(generaciones[i])[0] + sorted(generaciones[i])[-1])/2
         print("Promedio fitness = ",promedio)
-        print("Mejor fitness = ",sorted(totalFit[i])[0])
-        # print("Orden de ids -> ",totalFit[i][sorted(totalFit[i])[0]])
+        print("Mejor fitness = ",sorted(generaciones[i])[0])
+        mejores.append(sorted(generaciones[i])[0])
+        # print("Orden de ids -> ",generaciones[i][sorted(generaciones[i])[0]])
         print("\n\n")
 
-        if mejorFit > sorted(totalFit[i])[0]:
-            mejorFit = sorted(totalFit[i])[0]
+        if mejorFit > sorted(generaciones[i])[0]:
+            mejorFit = sorted(generaciones[i])[0]
             mejorGen = i + 1
-            mejorComb = totalFit[i][mejorFit]
+            mejorComb = generaciones[i][mejorFit]
 
     print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -105,13 +88,16 @@ def geneticAlg(listaOrdenes,G):
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 
+    return generaciones, mejores
+
+
 
 
 
 
 def mutacion(individuo,listaOrdenes,n,G):
     "Mutacion toma 3 parametros, el individuo, la lista de ordenes u orden y la grilla. Muta la propiedad lista de ids segun n cantidad de elementos. Luego devuelve un arreglo del id mutado y su valor en fitness"
-    # Tomamos 3 elementos de la lista de ids a mutar
+    # Tomamos n elementos de la lista de ids a mutar
     cambios = sample(individuo.lista,n)
     # Sacamos las posiciones de los cambios
     pos = []
