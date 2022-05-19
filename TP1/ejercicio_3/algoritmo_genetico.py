@@ -31,10 +31,13 @@ def geneticAlg(listaOrdenes,G):
         
         generaciones.append({})
 
+        # Se genera una lista aleatoria para hacer crossover aleatorio
+        randPos = sample(range(cantInd),cantInd)
+
         # CrossOver 👇
         for i in range(0,len(poblacion),2):
             # Entonces como poblacion esta ordenado de mejor fitness a peor fitness nos aseguramos el mejor cross over con los dos primeros
-            crossover(poblacion[i],poblacion[i+1])
+            crossover(poblacion[randPos[i]],poblacion[randPos[i+1]])
 
 
         
