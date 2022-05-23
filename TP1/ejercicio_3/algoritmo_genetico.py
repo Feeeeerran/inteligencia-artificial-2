@@ -43,17 +43,21 @@ def geneticAlg(listaOrdenes,G):
         
         # Mutacion 👇
         for i in range(len(poblacion)):
-            # Mutamos un individuo y obtenemos su fitness y la lista correspondiente
-            fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,3,G) 
-            if generacion > 0:
-                # Para generaciones >2 intentamos mutar x veces mientras el fitness obtenido sea peor que el peor (u otro individuo) fitness de la generacion anterior
-                intentos = 10
-                while fitIndividuo > sorted(generaciones[generacion - 1])[-1] and intentos != 0:
-                    fitIndividuo,listaMutada = mutacion(poblacion[i],listaOrdenes,i+1,G) 
-                    intentos -= 1 
+            # Probabilidad para saber si mutar
+            rand = random()
+            if rand < 0.3:
+                # Mutamos un individuo y obtenemos su fitness y la lista correspondiente
+                fitIndividuo = mutacion(poblacion[i],listaOrdenes,3,G) 
+                if generacion > 0:
+                    # Para generaciones >2 intentamos mutar x veces mientras el fitness obtenido sea peor que el peor (u otro individuo) fitness de la generacion anterior
+                    intentos = 10
+                    while fitIndividuo > sorted(generaciones[generacion - 1])[-1] and intentos != 0:
+                        fitIndividuo = mutacion(poblacion[i],listaOrdenes,i+1,G) 
+                        intentos -= 1 
             
             # Agregamos al historial de fitness por generacion
-            generaciones[generacion][fitIndividuo] = listaMutada 
+            generaciones[generacion][poblacion[i].setFitness(listaOrdenes,G)] = poblacion[i].lista 
+
 
 
         # Ordenamos la poblacion de mejor fitness (mas bajo) al peor fitness (mas alto)
@@ -99,7 +103,8 @@ def geneticAlg(listaOrdenes,G):
 
 
 def mutacion(individuo,listaOrdenes,n,G):
-    "Mutacion toma 3 parametros, el individuo, la lista de ordenes u orden y la grilla. Muta la propiedad lista de ids segun n cantidad de elementos. Luego devuelve un arreglo del id mutado y su valor en fitness"
+    "Mutacion toma 3 parametros, el individuo, la lista de ordenes u orden y la grilla. Muta la propiedad lista de ids segun n cantidad de elementos. Luego devuelve su valor en fitness"
+
     # Tomamos n elementos de la lista de ids a mutar
     cambios = sample(individuo.lista,n)
     # Sacamos las posiciones de los cambios
@@ -125,7 +130,7 @@ def mutacion(individuo,listaOrdenes,n,G):
 
     fitness = individuo.setFitness(listaOrdenes, G)
 
-    return fitness, individuo.lista
+    return fitness
 
 def crossover(individuo1, individuo2):
     "La funcion toma dos individuos, de cada uno extrae la lista y realiza el crossover. No retorna nada ya que trabaja directamente con el objeto individuo"
