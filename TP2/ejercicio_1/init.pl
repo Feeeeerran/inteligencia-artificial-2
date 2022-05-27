@@ -20,26 +20,24 @@ apagarse(Coche) :- estado(Coche,Estado), Estado == "Encendido".
 % Para poder avanzar
 %   > El coche tiene que estar encendido
 %   > Si hay un obstaculo
-%       > No puede moverse a mas de 10 cm/s
-%       > Tiene que estar a 2 o mas metros del coche
-avanzar(C) :- estado(C,Estado), Estado == "Encendido".
-avanzar(c) :- obstaculo(_,Distancia,Velocidad), Distancia =< 10 , Velocidad =< 2.
+%       > Se mueve a menos de 10 cm/s
+%       > Tiene que estar a 3 o mas metros del coche
+avanzar(C) :- estado(C,Estado), Estado == "Encendido", obstaculo(_,Distancia,Velocidad), (Distancia >= 3 ; Velocidad =< 10).
 
 
 
-% Decimos que algo es un obstaculo si 
+% Decimos que algo es un obstaculo si cumple con alguna de las condiciones
 %   > Aparece en el sensor a menos de 5 m
 %   > Tiene mas de 20 cm de altura
-%   > Se mueve a mas de 5cm/s
-obstaculo(Desc,Distancia,Velocidad) :- sensor(Desc,Distancia,Altura,Velocidad), Altura >= 20, Distancia =< 5, Velocidad >= 5.
-obstaculo(Desc,Distancia,Velocidad) :- sensor(Desc,Distancia,_,Velocidad).
+%   > Se mueve a mas de 5 cm/s
+obstaculo(Desc,Distancia,Velocidad) :- sensor(Desc,Distancia,Altura,Velocidad), (Distancia =< 10; Altura >= 20; Velocidad >= 5).
 
 
 % Podemos sensar un obstaculo siempre y cuando el sensor lo capture
 %   > El sensor toma (descripcion, distancia, altura, velocidad)
 
-% sensor(persona, 10, 190, 10).
-sensor(perro, 25, 70, 30).
+sensor(persona, 2, 190, 10).
+sensor(perro, 15, 70, 30).
 sensor(piedra,1, 10, 0).
 
 
