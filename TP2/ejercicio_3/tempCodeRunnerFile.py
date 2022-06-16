@@ -1,0 +1,1 @@
+pertenencia_pos
