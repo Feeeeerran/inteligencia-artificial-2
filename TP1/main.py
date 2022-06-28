@@ -44,9 +44,10 @@ G.descarga = G.grilla[0][0]
 ordenes = orders("ordenes")
 result,mejores = geneticAlg(ordenes[0:5],G)
 
-# xx = range(3)
-# print(len(result))
-# fig = px.bar(x = range(len(result)), y = mejores)
-# fig.write_html('plots/gen_fitness.html', auto_open = True)
+# simAnnealing(ordenes[0],G)
+xx = range(3)
+print(len(result))
+fig = px.bar(x = range(len(result)), y = mejores)
+fig.write_html('plots/gen_fitness.html', auto_open = True)
  
 
