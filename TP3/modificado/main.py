@@ -8,7 +8,6 @@ from generar_datos_clasificacion import generar_datos_clasificacion
 from inicializar_pesos import inicializar_pesos
 from train import train
 
-
 def iniciar(numero_clases, numero_ejemplos, graficar_datos = False):
     # Generamos datos
     x, t = generar_datos_clasificacion(numero_ejemplos, numero_clases)
@@ -34,8 +33,6 @@ def iniciar(numero_clases, numero_ejemplos, graficar_datos = False):
     EPOCHS=10000
     return train(x, t, pesos, LEARNING_RATE, EPOCHS)
     
-    
-
 
 # Iniciamos el modelo con
 #   > 3 Clases

@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from ejecutar_adelante import ejecutar_adelante
+from generar_datos_clasificacion import generar_datos_clasificacion
+from validacion import validacion
 
 # x: n entradas para cada uno de los m ejemplos(nxm)
 # t: salida correcta (target) para cada uno de los m ejemplos (m x 1)
@@ -10,6 +12,10 @@ def train(x, t, pesos, learning_rate, epochs):
     # Cantidad de filas (i.e. cantidad de ejemplos)
     loss_arr = []
     m = np.size(t) 
+
+    # Genera datos para validacion
+    xv,tv = generar_datos_clasificacion(100,3)
+
     for i in range(epochs):
         # Ejecucion de la red hacia adelante
         resultados_feed_forward = ejecutar_adelante(x, pesos)
@@ -35,10 +41,19 @@ def train(x, t, pesos, learning_rate, epochs):
         #    que tomamos del array t ("target")
         loss = (1 / m) * np.sum( -np.log( p[range(m), t] ))
 
-        # Mostramos solo cada 1000 epochs
+        # Mostramos solo cada 100 epochs
         if i %100 == 0:
             # print("Loss epoch", i, ":", loss)
             loss_arr.append(loss)
+            
+            loss_nuevo = validacion(xv,tv,pesos)
+            # print(loss_nuevo)
+            if i>100:
+                if loss_anterior - loss_nuevo < 0:
+                    print("Loss empieza a aumentar")
+                    break
+            
+            loss_anterior = loss_nuevo
 
         # Extraemos los pesos a variables locales
         w1 = pesos["w1"]
