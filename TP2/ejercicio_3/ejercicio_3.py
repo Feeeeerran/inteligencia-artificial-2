@@ -4,7 +4,7 @@ from conjuntos import *
 from borrosificador import *
 from controlador import *
 
-import matplotlib.pyplot as pl
+import matplotlib.pyplot as plt
 # FAM #################################################################
 
 # Primer entrada por posicion (theta) y segunda entrada con velociad (theta')
@@ -78,10 +78,10 @@ ax1.plot(vector_t, vector_vel)
 ax1.set(xlabel='time (s)', ylabel='veloc')       #, title='Delta t = ' + str(delta_t) + " s")
 ax1.grid()
 
-fig2, ax2 = plt.subplots()
-ax2.plot(vector_t, vector_acel)
+# fig2, ax2 = plt.subplots()
+# ax2.plot(vector_t, vector_acel)
 
-ax2.set(xlabel='time (s)', ylabel='acel')       #, title='Delta t = ' + str(delta_t) + " s")
-ax2.grid()
+# ax2.set(xlabel='time (s)', ylabel='acel')       #, title='Delta t = ' + str(delta_t) + " s")
+# ax2.grid()
 
 plt.show()
