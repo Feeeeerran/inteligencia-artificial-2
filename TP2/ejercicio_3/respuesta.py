@@ -19,7 +19,6 @@ L_PENDULO = 1
 # dT = 0.001
 
 
-
 def response(pos, vel, f, dT):
     "Funcion que da respuesta al sistema diseñado. Toma como entradas la posicion, velocidad y fuerzas del sistema en t y devuelve la posicion y velocidad en t + 1"
     # pos = (pos * np.pi) / 180
@@ -30,12 +29,9 @@ def response(pos, vel, f, dT):
     return pos, vel, acel
 
 
-
 def aceleracion(theta,v,f):
     numerador = constants.g * np.sin(theta) + np.cos(theta) * ((-f - M_PERTIGA * L_PENDULO * np.power(v, 2) * np.sin(theta)) / (M_CARRITO + M_PERTIGA))
 
     denominador = L_PENDULO * (4/3 - (M_PERTIGA * np.power(np.cos(theta), 2) / (M_CARRITO + M_PERTIGA)))
 
     return numerador/denominador
-
-
