@@ -16,17 +16,18 @@ M_PERTIGA = 1
 L_PENDULO = 1
 
 # Discretizacion del tiempo en intervalos delta T (dT)
-dT = 0.0001
+# dT = 0.001
 
 
 
-def response(pos, vel, f):
+def response(pos, vel, f, dT):
     "Funcion que da respuesta al sistema diseñado. Toma como entradas la posicion, velocidad y fuerzas del sistema en t y devuelve la posicion y velocidad en t + 1"
+    # pos = (pos * np.pi) / 180
     acel = aceleracion(pos, vel, f)
     vel = vel + acel*dT
-    pos = pos + vel*dT + (acel*np.power(dT,2)/2)
+    pos = pos - vel*dT + (acel*np.power(dT,2)/2)
 
-    return pos, vel
+    return pos, vel, acel
 
 
 

@@ -22,7 +22,7 @@ def borrosificar(entrada,dominio):
         if entrada > conjunto[0] and entrada < conjunto[1]:
             # Vamos a la funcion y retornamos su valor pero tenemos que normalizar el valor al dominio
             y = valor_pertenencia(entrada,conjunto,pendiente,tag)
-            pertenencias[tags[tag]] = y
+            pertenencias[tags[tag]] = y         # NO ENTIENDO ESTA LINEA, NO SERIA pertenencias[tags][tag]?
     
     return pertenencias
 
@@ -40,7 +40,7 @@ def valor_pertenencia(x,conjunto,m,tag):
         if x > centro:
             return 1
         else:
-            -1*m*x + -1
+            1*m*x + -1      # la pendiente es +
 
     if x == centro:
         return 1
