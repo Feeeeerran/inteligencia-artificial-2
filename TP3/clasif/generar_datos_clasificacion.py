@@ -1,8 +1,11 @@
 import numpy as np
+import matplotlib.pyplot as plt 
+
+from tempfile import TemporaryFile
 
 def generar_datos_clasificacion(cantidad_ejemplos, cantidad_clases):
-    FACTOR_ANGULO = 0.79
-    AMPLITUD_ALEATORIEDAD = 0.1
+    FACTOR_ANGULO = 0.4
+    AMPLITUD_ALEATORIEDAD = 0.3
 
     # Calculamos la cantidad de puntos por cada clase, asumiendo la misma cantidad para cada 
     # una (clases balanceadas)
@@ -34,7 +37,7 @@ def generar_datos_clasificacion(cantidad_ejemplos, cantidad_clases):
         # Generamos las "entradas", los valores de las variables independientes. Las variables:
         # radios, angulos e indices tienen n elementos cada una, por lo que le estamos agregando
         # tambien n elementos a la variable x (que incorpora ambas entradas, x1 y x2)
-        x1 = radios * np.sin(angulos)
+        x1 = radios * np.sin(angulos) 
         x2 = radios * np.cos(angulos)
         x[indices] = np.c_[x1, x2]
 
@@ -43,3 +46,17 @@ def generar_datos_clasificacion(cantidad_ejemplos, cantidad_clases):
         t[indices] = clase
 
     return x, t
+
+
+# Para imprimir
+# x,t = generar_datos_clasificacion(300,3)
+# plt.scatter(x[:, 0], x[:, 1], c=t)
+# plt.show()
+
+# Para guardar el set
+# np.savez('../data_sets/setX.npz',x,t)
+
+# Para cargar un set npz
+# data = np.load('../data_sets/setX.npz')
+
+# Con .files podemos ver los distintos arrays que hemos guardado, como t y x
