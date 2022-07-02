@@ -6,7 +6,7 @@ def desborrosificar(conjunto,dominios,tags):
     ancho = 6
     num = 0
     den = 1
-    dt = int(len(conjunto)/19)
+    dt = int(len(conjunto)/19)       
     for i in tags:
         if i == "NG":
             num += conjunto[3*dt] * -6

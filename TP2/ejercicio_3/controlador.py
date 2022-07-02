@@ -13,6 +13,11 @@ def controlador_difuso(pertenencia_pos, pertenencia_vel, conjunto_f, dominio_f, 
             if reglas[i][j] not in tags:
                 tags.append(reglas[i][j])
 
+    
+    if len(salidas) == 0:
+        salidas.append([0])
+    # print(salidas)
+
     conj_salida = len(salidas[0])*[0]
     for i in range(len(salidas)):
         conj_salida = maximo(conj_salida, salidas[i])

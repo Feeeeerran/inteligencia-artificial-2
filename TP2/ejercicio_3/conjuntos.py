@@ -50,7 +50,7 @@ for i in range(len(tags)):
     dt = 0.1
 
     if i == 0:    
-        for x in np.arange(-9,10,dt):
+        for x in np.arange(-9,10,dt):           # POR QUE ESE RANGO? POR QUE EL 10?, NO ES 9+dt? o es aleatorio?
             xC = round(x,4)
             vec.append(round(hombro_der(xC,ancho,centro,1/3),4))
         conjunto_fuerza[tags[i]] = vec
@@ -71,41 +71,41 @@ for i in range(len(tags)):
 
 
 
-reglas = {
-    'NG':{
-        'NG':'NG',
-        'NP':'NP',
-        'Z':'NP',
-        'PP':'NP',
-        'PG':'Z'
-        },
-    'NP':{
-        'NG':'NG',
-        'NP':'NP',
-        'Z':'NP',
-        'PP':'Z',
-        'PG':'PP'
-        },
-    'Z':{
-        'NG':'NP',
-        'NP':'NP',
-        'Z':'Z',
-        'PP':'PP',
-        'PG':'PP'
-        },
-    'PP':{
-        'NG':'NP',
-        'NP':'Z',
-        'Z':'PP',
-        'PP':'PP',
-        'PG':'PG'
-        },
-    'PG':{
-        'NG':'Z',
-        'NP':'PP',
-        'Z':'PP',
-        'PP':'PG',
-        'PG':'PG'}
-}
+# reglas = {          
+#     'NG':{
+#         'NG':'NG',
+#         'NP':'NP',
+#         'Z':'NP',
+#         'PP':'NP',
+#         'PG':'Z'
+#         },
+#     'NP':{
+#         'NG':'NG',
+#         'NP':'NP',
+#         'Z':'NP',
+#         'PP':'Z',
+#         'PG':'PP'
+#         },
+#     'Z':{
+#         'NG':'NP',
+#         'NP':'NP',
+#         'Z':'Z',
+#         'PP':'PP',
+#         'PG':'PP'
+#         },
+#     'PP':{
+#         'NG':'NP',
+#         'NP':'Z',
+#         'Z':'PP',
+#         'PP':'PP',
+#         'PG':'PG'
+#         },
+#     'PG':{
+#         'NG':'Z',
+#         'NP':'PP',
+#         'Z':'PP',
+#         'PP':'PG',
+#         'PG':'PG'}
+# }
 
     
